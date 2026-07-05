@@ -1,26 +1,182 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   BASE TOKENS (LIGHT = fallback)
+   ========================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-oswald);
+
+  --sale: #ef4444;
+  --sale-foreground: #ffffff;
+
+  --success: #22c55e;
+  --success-foreground: #ffffff;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  /* =========================
+STORE THEME
+========================= */
+
+  --background: #071a1f;
+  --foreground: #e5e7eb;
+
+  --card: #0c252c;
+  --card-foreground: #e5e7eb;
+
+  --popover: #111827;
+  --popover-foreground: #e5e7eb;
+
+  --primary: #cc9966;
+  --primary-foreground: #0b0f17;
+
+  --secondary: #12343b;
+  --secondary-foreground: #e5e7eb;
+
+  --muted: #0b1f24;
+  --muted-foreground: #9ca3af;
+
+  --border: rgba(120, 200, 190, 0.1);
+  --input: rgba(255, 255, 255, 0.12);
+
+  --ring: rgba(244, 162, 97, 0.35);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* =========================
+ADMIN THEME
+========================= */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.theme-admin {
+  /* base */
+  --background: #0a0a0b;
+  --foreground: #f4f4f5;
+
+  /* surfaces */
+  --card: #111113;
+  --popover: #111113;
+
+  --card-foreground: #f4f4f5;
+  --popover-foreground: #f4f4f5;
+
+  --primary: #f2f2f2;
+  --primary-foreground: #000;
+
+  /* secondary surfaces */
+  --secondary: #18181b;
+
+  /* muted */
+  --muted: #1c1c1f;
+  --muted-foreground: #a1a1aa;
+
+  /* borders = subtle separation */
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.08);
+
+  /* focus ring */
+  --ring: rgba(124, 58, 237, 0.35);
+
+  /* status colors (subtle, not neon) */
+  --success: #22c55e;
+  --sale: #ef4444;
+  --destructive: #ef4444;
+
+  .table-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-scroll::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+
+  .table-scroll::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 9999px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =========================
+   TAILWIND MAPPING
+   ========================= */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-sale: var(--sale);
+  --color-sale-foreground: var(--sale-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-oswald);
+
+  --radius: var(--radius);
 }
+
+/* =========================
+   BASE LAYER
+   ========================= */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-muted-foreground min-h-screen overscroll-none;
+
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+/* @layer utilities {
+  .safelist-grid-cols {
+    @apply grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 grid-cols-5 grid-cols-6;
+  }
+} */
