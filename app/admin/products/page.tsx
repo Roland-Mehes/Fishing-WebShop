@@ -6,7 +6,6 @@ const Products = () => {
   return (
     <>
       <AdminBreadcrumbs
-        title="Products"
         breadcrumbs={[
           { label: 'Dashboard', href: '/admin' },
           {

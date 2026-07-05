@@ -1,41 +1,19 @@
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { UserTableRows } from './components/UserTableRows';
 import { getCustomers } from '@/db/queries/customers';
-import { COLUMNS } from './config/COLUMNS';
+import { customerColumns } from '../config/CUSTOMERS';
 import AdminBreadcrumbs from '../components/AdminBreadcrumbs';
+import { DataTable } from '../data-table/DataTable';
 
 const CustomerTable = async () => {
-  const result = await getCustomers();
+  const customers = await getCustomers();
   return (
     <div>
-      <AdminBreadcrumbs breadcrumbs={[]} />
+      <AdminBreadcrumbs breadcrumbs={[{ label: 'Customers' }]} />
 
-      <div className="relative ">
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead>
-                <Checkbox />
-              </TableHead>
-              {COLUMNS.map((column) => (
-                <TableHead key={column.key}>{column.header}</TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {result.map((customer) => (
-              <UserTableRows key={customer.id} customer={customer} />
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTable
+        data={customers}
+        columns={customerColumns}
+        getRowId={(p) => p.id}
+      />
     </div>
   );
 };

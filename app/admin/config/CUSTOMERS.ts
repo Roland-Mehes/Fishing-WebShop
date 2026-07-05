@@ -1,10 +1,11 @@
 import type { CustomerTableRow } from '@/db/queries/customers';
+import type { DataTableColumnType } from './types';
 
-export const COLUMNS = [
+export const customerColumns = [
   {
     key: 'name',
     header: 'User',
-    render: (customer: CustomerTableRow) => customer.name,
+    render: (customer) => customer.name,
   },
   {
     key: 'email',
@@ -17,4 +18,4 @@ export const COLUMNS = [
     render: (customer: CustomerTableRow) =>
       customer.createdAt.toLocaleDateString(),
   },
-] as const;
+] satisfies DataTableColumnType<CustomerTableRow>[];
