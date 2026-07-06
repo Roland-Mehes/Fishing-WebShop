@@ -1,10 +1,27 @@
 import { db } from '@/db';
 import { user } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, ilike, or } from 'drizzle-orm';
 
-export async function getCustomers() {
+type CustomFilters = {
+  search?: string;
+};
+
+export async function getCustomers({ search }: CustomFilters) {
+  const filters = [eq(user.role, 'customer')];
+
+  if (search?.trim()) {
+    const searchFilter = or(
+      ilike(user.name, `%${search}%`),
+      ilike(user.email, `%${search}%`),
+    );
+
+    if (searchFilter) {
+      filters.push(searchFilter);
+    }
+  }
+
   return db.query.user.findMany({
-    where: eq(user.role, 'customer'),
+    where: and(...filters),
     with: {
       addresses: true,
     },

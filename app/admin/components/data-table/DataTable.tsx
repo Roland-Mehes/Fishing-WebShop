@@ -6,9 +6,9 @@ import {
   TableBody,
 } from '@/components/ui/table';
 
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 
-import { DataTableColumnType } from '../config/types';
+import { DataTableColumnType } from '../../config/types';
 import { DataTableRow } from './DataTableRow';
 
 type DataTableProps<T> = {
@@ -19,12 +19,12 @@ type DataTableProps<T> = {
 
 export function DataTable<T>({ data, columns, getRowId }: DataTableProps<T>) {
   return (
-    <Table>
+    <Table className="min-w-full">
       <TableHeader>
         <TableRow>
-          <TableHead>
+          {/* <TableHead>
             <Checkbox />
-          </TableHead>
+          </TableHead> */}
 
           {columns.map((column) => (
             <TableHead key={column.key}>{column.header}</TableHead>

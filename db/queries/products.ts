@@ -6,9 +6,33 @@ import {
   productVariants,
   categories,
 } from '@/db/schema';
-import { eq, count } from 'drizzle-orm';
+import { eq, count, and, ilike, or } from 'drizzle-orm';
+import { DEFAULT_PAGE_SIZE } from '@/app/admin/config/PRODUCTS';
 
-export async function getProducts() {
+export type ProductListFilters = {
+  categoryId?: string;
+  brandId?: string;
+  active?: boolean;
+
+  page?: number;
+  pageSize?: number;
+
+  search?: string;
+};
+
+export async function getProductsList({
+  categoryId,
+  brandId,
+  active,
+  page,
+  pageSize,
+  search,
+}: ProductListFilters) {
+  const filters = buildProductFilters({ categoryId, brandId, active, search });
+
+  const limit = pageSize ?? DEFAULT_PAGE_SIZE;
+  const offset = ((page ?? 1) - 1) * limit;
+
   return db
     .select({
       id: products.id,
@@ -27,26 +51,62 @@ export async function getProducts() {
     .leftJoin(brands, eq(products.brandId, brands.id))
     .leftJoin(productImages, eq(productImages.productId, products.id))
     .leftJoin(productVariants, eq(productVariants.productId, products.id))
-    .leftJoin(categories, eq(categories.id, products.categoryId));
+    .leftJoin(categories, eq(categories.id, products.categoryId))
+    .where(filters.length ? and(...filters) : undefined)
+    .limit(limit)
+    .offset(offset);
 }
 
-export type ProductRow = Awaited<ReturnType<typeof getProducts>>[number];
+export type ProductRow = Awaited<ReturnType<typeof getProductsList>>[number];
+
+function buildProductFilters({
+  categoryId,
+  brandId,
+  active,
+  search,
+}: ProductListFilters) {
+  const filters = [];
+
+  if (categoryId) {
+    filters.push(eq(products.categoryId, categoryId));
+  }
+
+  if (brandId) {
+    filters.push(eq(products.brandId, brandId));
+  }
+
+  if (active !== undefined) {
+    filters.push(eq(products.active, active));
+  }
+
+  if (search?.trim()) {
+    filters.push(
+      or(
+        ilike(products.name, `%${search}%`),
+        ilike(productVariants.sku, `%${search}%`),
+        ilike(productVariants.ean, `%${search}%`),
+      ),
+    );
+  }
+
+  return filters;
+}
+
+export async function getProductsCount(filters: ProductListFilters) {
+  const whereFilters = buildProductFilters(filters);
+
+  const [{ count: total }] = await db
+    .select({
+      count: count(),
+    })
+    .from(products)
+    .leftJoin(productVariants, eq(productVariants.productId, products.id))
+    .where(whereFilters.length ? and(...whereFilters) : undefined);
+
+  return total;
+}
 
 // admin táblázat
-export async function getProductsTable() {
-  return db.query.products.findMany({
-    with: {
-      brand: true,
-      category: true,
-      images: {
-        limit: 1,
-      },
-      variants: {
-        limit: 1,
-      },
-    },
-  });
-}
 
 // admin edit page
 export async function getProductForEdit(id: string) {
@@ -77,9 +137,26 @@ export async function getProductForEdit(id: string) {
   });
 }
 
-// storefront category page
-export function getProductsByCategory(categorySlug: string) {
-  console.log(categorySlug);
+//
+
+export async function getProductsByCategory() {
+  const categoriesList = await db.query.categories.findMany();
+
+  return categoriesList.map((category) => ({
+    label: category.name,
+    value: category.id,
+  }));
+}
+
+//
+
+export async function getProductBrands() {
+  const brandsList = await db.query.brands.findMany();
+
+  return brandsList.map((brand) => ({
+    label: brand.name,
+    value: brand.id,
+  }));
 }
 
 //Customer product page
@@ -105,15 +182,4 @@ export async function getProductBySlug(slug: string) {
       },
     },
   });
-}
-
-export async function getActiveProductsCount() {
-  const result = await db
-    .select({
-      count: count(),
-    })
-    .from(products)
-    .where(eq(products.active, true));
-
-  return result[0].count;
 }

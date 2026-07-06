@@ -1,7 +1,7 @@
-import { DataTableColumnType } from '../config/types';
+import { DataTableColumnType } from '../../config/types';
 
 import { TableCell, TableRow } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 
 type DataTableRowProps<T> = {
   row: T;
@@ -11,9 +11,9 @@ type DataTableRowProps<T> = {
 export function DataTableRow<T>({ row, columns }: DataTableRowProps<T>) {
   return (
     <TableRow className={'cursor-pointer'}>
-      <TableCell>
+      {/* <TableCell>
         <Checkbox />
-      </TableCell>
+      </TableCell> */}
 
       {columns.map((column) => (
         <TableCell key={column.key}>{column.render(row)}</TableCell>

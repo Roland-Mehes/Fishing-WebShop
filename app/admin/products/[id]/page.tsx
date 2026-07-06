@@ -18,7 +18,6 @@ const page = async ({ params }: PageProps) => {
   return (
     <div>
       <AdminBreadcrumbs
-        title={product.name}
         breadcrumbs={[
           { label: 'Products', href: '/admin/products' },
           { label: product.name },

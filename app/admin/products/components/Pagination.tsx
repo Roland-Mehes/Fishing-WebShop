@@ -1,23 +1,58 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const Pagination = () => {
-  const [inputValue, setInputValue] = useState('1');
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+};
+
+const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+  const [inputValue, setInputValue] = useState(currentPage.toString());
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const goToPage = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set('page', page.toString());
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    console.log('effect', currentPage);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setInputValue(() => currentPage.toString());
+  }, [currentPage]);
+
+  console.log('render', currentPage);
   return (
     <div className="flex gap-1 justify-center items-center">
-      <Button>{'<<'}</Button>
-      <Button>{'<'}</Button>
+      <Button
+        disabled={currentPage === 1}
+        onClick={() => goToPage(currentPage - 1)}
+      >
+        {'Prev...'}
+      </Button>
       <Input
+        key={currentPage}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         className="w-[4ch]"
       />{' '}
-      din 500
-      <Button>{'>'}</Button>
-      <Button>{'>>'}</Button>
+      din {totalPages}
+      <Button
+        disabled={currentPage === totalPages}
+        onClick={() => goToPage(currentPage + 1)}
+      >
+        {'Next...'}
+      </Button>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const ProductEdit = async ({ params }: ProductEditProps) => {
   const { id } = await params;
   const product = await getProductForEdit(id);
 
-  return <div>{product.brand.name}</div>;
+  return <div>{product?.brand.name}</div>;
 };
 
 export default ProductEdit;
