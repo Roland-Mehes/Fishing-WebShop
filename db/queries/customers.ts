@@ -28,4 +28,4 @@ export async function getCustomers({ search }: CustomFilters) {
   });
 }
 
-export type CustomerTableRow = Awaited<ReturnType<typeof getCustomers>>[number];
+export type CustomerListItem = Awaited<ReturnType<typeof getCustomers>>[number];

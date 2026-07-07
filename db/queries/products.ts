@@ -6,8 +6,8 @@ import {
   productVariants,
   categories,
 } from '@/db/schema';
-import { eq, count, and, ilike, or } from 'drizzle-orm';
-import { DEFAULT_PAGE_SIZE } from '@/app/admin/config/PRODUCTS';
+import { eq, count, and, ilike, or, sql } from 'drizzle-orm';
+import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
 
 export type ProductListFilters = {
   categoryId?: string;
@@ -39,7 +39,7 @@ export async function getProductsList({
       name: products.name,
       createdAt: products.createdAt,
       brandName: brands.name,
-      imageUrl: productImages.imageUrl,
+      imageUrl: primaryImageSubquery.imageUrl,
       price: productVariants.price,
       ean: productVariants.ean,
       sku: productVariants.sku,
@@ -49,15 +49,33 @@ export async function getProductsList({
     })
     .from(products)
     .leftJoin(brands, eq(products.brandId, brands.id))
-    .leftJoin(productImages, eq(productImages.productId, products.id))
     .leftJoin(productVariants, eq(productVariants.productId, products.id))
     .leftJoin(categories, eq(categories.id, products.categoryId))
+    .leftJoin(
+      primaryImageSubquery,
+      eq(primaryImageSubquery.productId, products.id),
+    )
     .where(filters.length ? and(...filters) : undefined)
     .limit(limit)
     .offset(offset);
 }
 
-export type ProductRow = Awaited<ReturnType<typeof getProductsList>>[number];
+const primaryImageSubquery = db
+  .selectDistinctOn([productImages.productId], {
+    productId: productImages.productId,
+    imageUrl: productImages.imageUrl,
+  })
+  .from(productImages)
+  .orderBy(
+    productImages.productId,
+    sql`${productImages.isPrimary} DESC`,
+    productImages.sortOrder,
+  )
+  .as('primaryImage');
+
+export type ProductListItem = Awaited<
+  ReturnType<typeof getProductsList>
+>[number];
 
 function buildProductFilters({
   categoryId,
@@ -154,9 +172,23 @@ export async function getProductBrands() {
   const brandsList = await db.query.brands.findMany();
 
   return brandsList.map((brand) => ({
+    id: brand.id,
     label: brand.name,
     value: brand.id,
+    logo: brand.brandLogoUrl,
   }));
+}
+
+export async function getBrandsList({ search }: { search?: string }) {
+  const filters = [];
+
+  if (search?.trim()) {
+    filters.push(ilike(brands.name, `%${search}%`));
+  }
+
+  return db.query.brands.findMany({
+    where: filters.length ? and(...filters) : undefined,
+  });
 }
 
 //Customer product page

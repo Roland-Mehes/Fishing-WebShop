@@ -1,8 +1,8 @@
 import { getCustomers } from '@/db/queries/customers';
-import { customerColumns } from '../config/CUSTOMERS';
-import AdminBreadcrumbs from '../components/AdminBreadcrumbs';
-import { DataTable } from '../components/data-table/DataTable';
-import SearchInput from '../products/components/SearchInput';
+import { customerColumns } from '../config/customers.config';
+import AdminBreadcrumbs from '../_components/AdminBreadcrumbs';
+import { DataTable } from '../_components/data-table/DataTable';
+import SearchInput from '../products/_components/SearchInput';
 
 type CustomerTableProps = {
   searchParams: Promise<{

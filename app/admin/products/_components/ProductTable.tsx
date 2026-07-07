@@ -1,8 +1,8 @@
-import { DataTable } from '../../components/data-table/DataTable';
+import { DataTable } from '../../_components/data-table/DataTable';
 
 import { getProductsList } from '@/db/queries/products';
 
-import { productColumns } from '@/app/admin/config/PRODUCTS';
+import { productColumns } from '@/app/admin/config/products.config';
 
 type ProductTableProps = {
   categoryId?: string;

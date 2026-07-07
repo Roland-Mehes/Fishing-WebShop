@@ -1,4 +1,5 @@
 import { getProductForEdit } from '@/db/queries/products';
+import ProductForm from '../../_components/ProductForm';
 
 type ProductEditProps = {
   params: Promise<{ id: string }>;

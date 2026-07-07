@@ -1,18 +1,18 @@
 import { Button } from '@/components/ui/button';
-import ProductTable from './components/ProductTable';
-import AdminBreadcrumbs from '../components/AdminBreadcrumbs';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import Pagination from './components/Pagination';
-import ProductSearch from './components/SearchInput';
 import {
   getProductsByCategory,
   getProductBrands,
   getProductsCount,
 } from '@/db/queries/products';
-import SelectFilter from '../components/filters/SelectFilter';
-import { DEFAULT_PAGE_SIZE } from '../config/PRODUCTS';
-import { PRODUCT_STATUS_OPTIONS } from '../config/PRODUCTS';
-import SearchInput from './components/SearchInput';
+import { PRODUCT_STATUS_OPTIONS } from '@/app/admin/config/products.config';
+import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
+import Link from 'next/link';
+import SelectFilter from '@/app/admin/_components/filters/SelectFilter';
+import ProductTable from '@/app/admin/products/_components/ProductTable';
+import AdminBreadcrumbs from '@/app/admin/_components/AdminBreadcrumbs';
+import Pagination from '@/app/admin/_components/Pagination';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import SearchInput from '@/app/admin/products/_components/SearchInput';
 
 type ProductsProps = {
   searchParams: Promise<{
@@ -78,7 +78,9 @@ const Products = async ({ searchParams }: ProductsProps) => {
         <div className="flex gap-2">
           <Button variant="outline">Export</Button>
 
-          <Button>Add Product</Button>
+          <Button asChild>
+            <Link href="/admin/products/new">Add Product</Link>
+          </Button>
         </div>
       </div>
 

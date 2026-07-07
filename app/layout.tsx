@@ -1,6 +1,6 @@
 import { Inter, Oswald } from 'next/font/google';
 import './globals.css';
-import { ThemeController } from '@/hooks/ThemeSwitch';
+import { ThemeController } from '@/lib/ThemeSwitch';
 
 const inter = Inter({
   subsets: ['latin'],

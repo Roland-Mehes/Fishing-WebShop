@@ -1,16 +1,15 @@
-import { ProductRow } from '@/db/queries/products';
-import { DataTableColumnType } from './types';
+import { ProductListItem } from '@/db/queries/products';
+import { TableColumn } from '../_components/data-table/types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { EllipsisVertical } from 'lucide-react';
 import { formatCurrency } from '@/lib/formatters/currency';
-import { Button } from '@/components/ui/button';
+import ProductActions from '../products/_components/ProductActions';
 
 export const productColumns = [
   {
     key: 'name',
     header: 'Nume',
-    render: (product: ProductRow) => (
+    render: (product: ProductListItem) => (
       <div className="flex gap-2 items-center">
         <Link
           className={`font-medium hover:underline`}
@@ -25,39 +24,33 @@ export const productColumns = [
   {
     key: 'brand',
     header: 'Brand',
-    render: (product: ProductRow) => product.brandName,
+    render: (product: ProductListItem) => product.brandName,
   },
   {
     key: 'category',
     header: 'Category',
-    render: (product: ProductRow) => product.category,
+    render: (product: ProductListItem) => product.category,
   },
 
   {
     key: 'price',
     header: 'Pret',
-    render: (product: ProductRow) =>
+    render: (product: ProductListItem) =>
       product.price ? `${formatCurrency(product.price)}` : '-',
   },
 
   {
     key: 'stock',
     header: 'Stock',
-    render: (product: ProductRow) => (
-      <div className="flex items-center gap-2">
-        {product.stock ? (
-          <Badge className="min-w-full">{product.stock}</Badge>
-        ) : (
-          <Badge className="min-w-full">0</Badge>
-        )}
-      </div>
+    render: (product: ProductListItem) => (
+      <div className="flex items-center gap-2">{product.stock}</div>
     ),
   },
 
   {
     key: 'status',
     header: 'Status',
-    render: (product: ProductRow) => (
+    render: (product: ProductListItem) => (
       <Badge
         className="min-w-full"
         variant={product.active ? 'default' : 'secondary'}
@@ -69,13 +62,11 @@ export const productColumns = [
   {
     key: 'actions',
     header: '',
-    render: (product) => (
-      <Button variant="ghost" size="icon">
-        <EllipsisVertical className="h-4 w-4" />
-      </Button>
+    render: (product: ProductListItem) => (
+      <ProductActions productId={product.id} active={product.active} />
     ),
   },
-] satisfies DataTableColumnType<ProductRow>[];
+] satisfies TableColumn<ProductListItem>[];
 
 export const PRODUCT_STATUS_OPTIONS = [
   {
@@ -87,5 +78,3 @@ export const PRODUCT_STATUS_OPTIONS = [
     value: 'false',
   },
 ];
-
-export const DEFAULT_PAGE_SIZE = 10;

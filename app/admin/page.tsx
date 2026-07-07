@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import AdminBreadcrumbs from './components/AdminBreadcrumbs';
+import AdminBreadcrumbs from './_components/AdminBreadcrumbs';
 
 export default function Admin() {
   return (

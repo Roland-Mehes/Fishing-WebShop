@@ -6,14 +6,12 @@ import {
   TableBody,
 } from '@/components/ui/table';
 
-// import { Checkbox } from '@/components/ui/checkbox';
-
-import { DataTableColumnType } from '../../config/types';
+import { TableColumn } from '@/app/admin/_components/data-table/types';
 import { DataTableRow } from './DataTableRow';
 
 type DataTableProps<T> = {
   data: T[];
-  columns: DataTableColumnType<T>[];
+  columns: TableColumn<T>[];
   getRowId: (row: T) => string;
 };
 
@@ -22,10 +20,6 @@ export function DataTable<T>({ data, columns, getRowId }: DataTableProps<T>) {
     <Table className="min-w-full">
       <TableHeader>
         <TableRow>
-          {/* <TableHead>
-            <Checkbox />
-          </TableHead> */}
-
           {columns.map((column) => (
             <TableHead key={column.key}>{column.header}</TableHead>
           ))}

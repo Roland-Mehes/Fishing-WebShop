@@ -1,5 +1,5 @@
 import { getProductForEdit } from '@/db/queries/products';
-import AdminBreadcrumbs from '../../components/AdminBreadcrumbs';
+import AdminBreadcrumbs from '../../_components/AdminBreadcrumbs';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -15,6 +15,8 @@ const page = async ({ params }: PageProps) => {
     return <div>{id} Not found!</div>;
   }
 
+  const primaryImage = product.images.find((image) => image.isPrimary);
+
   return (
     <div>
       <AdminBreadcrumbs
@@ -27,6 +29,12 @@ const page = async ({ params }: PageProps) => {
 
       <p>Brand: {product.brand?.name}</p>
       <p>Category: {product.category?.name}</p>
+
+      {/* {primaryImage?.imageUrl} */}
+
+      {product.images.map((image, idx) => (
+        <p key={idx}>{image.imageUrl}</p>
+      ))}
     </div>
   );
 };

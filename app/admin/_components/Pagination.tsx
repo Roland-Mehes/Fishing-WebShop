@@ -26,12 +26,10 @@ const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
   };
 
   useEffect(() => {
-    console.log('effect', currentPage);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setInputValue(() => currentPage.toString());
   }, [currentPage]);
 
-  console.log('render', currentPage);
   return (
     <div className="flex gap-1 justify-center items-center">
       <Button

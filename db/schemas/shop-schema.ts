@@ -41,6 +41,8 @@ export const brands = pgTable('brands', {
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
+
+  brandLogoUrl: text('logo_url'),
 });
 
 /* =========================
@@ -142,8 +144,10 @@ export const productImages = pgTable('product_images', {
     length: 255,
   }),
 
+  // IF there is more pohoto to a product, which is the order they are shown under the CARD.
   sortOrder: integer('sort_order').default(0).notNull(),
 
+  // IF there is more pohoto to a product, which is the first one visible on the CARD.
   isPrimary: boolean('is_primary').default(false).notNull(),
 });
 

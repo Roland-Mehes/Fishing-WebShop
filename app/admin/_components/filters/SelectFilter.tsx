@@ -7,9 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SelectFilterProps } from '../../config/types';
+import type { SelectOption } from '@/types/ui';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+export type SelectFilterProps = {
+  placeholder: string;
+  value?: string;
+  options: SelectOption[];
+  paramName: string;
+};
 
 const SelectFilter = ({
   placeholder,
