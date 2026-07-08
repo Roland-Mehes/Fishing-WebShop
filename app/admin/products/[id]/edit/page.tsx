@@ -1,4 +1,4 @@
-import { getProductForEdit } from '@/db/queries/products';
+import { getProductForEdit } from '@/db/queries/products/details';
 import ProductForm from '../../_components/ProductForm';
 
 type ProductEditProps = {

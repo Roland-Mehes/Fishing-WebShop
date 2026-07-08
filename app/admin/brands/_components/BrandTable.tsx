@@ -1,5 +1,5 @@
 import { DataTable } from '../../_components/data-table/DataTable';
-import { getBrandsList } from '@/db/queries/products';
+import { getBrandsList } from '@/db/queries/brands/list';
 import { brandColumns } from '@/app/admin/config/brands.config';
 
 export default async function BrandTable({ search }: { search?: string }) {

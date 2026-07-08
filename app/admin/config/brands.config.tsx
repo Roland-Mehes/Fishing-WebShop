@@ -1,15 +1,11 @@
-import { TableColumn } from '@/app/admin/_components/data-table/types';
-import { brands } from '@/db/schema';
-
+import { BrandListItem } from '@/db/queries/brands/list';
 import Image from 'next/image';
 
-type BrandRow = typeof brands.$inferInsert;
-
-export const brandColumns: TableColumn<BrandRow>[] = [
+export const brandColumns = [
   {
     key: 'logo',
     header: 'Logo',
-    render: (brand) =>
+    render: (brand: BrandListItem) =>
       brand.brandLogoUrl
         ? // <Image
           //   src={brand.logo}
@@ -22,8 +18,20 @@ export const brandColumns: TableColumn<BrandRow>[] = [
         : 'Nincs Logo',
   },
   {
-    key: 'label',
-    header: 'Name',
-    render: (brand) => brand.name,
+    key: 'brand',
+    header: 'Brand',
+    render: (brand: BrandListItem) => brand.name,
+  },
+
+  {
+    key: 'products',
+    header: 'Products',
+    render: (brand: BrandListItem) => brand.productCount,
+  },
+
+  {
+    key: 'actions',
+    header: 'Actions',
+    render: (brand: BrandListItem) => 'edit',
   },
 ];

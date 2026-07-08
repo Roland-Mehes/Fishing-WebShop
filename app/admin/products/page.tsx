@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import {
-  getProductsByCategory,
   getProductBrands,
-  getProductsCount,
-} from '@/db/queries/products';
+  getBrandSelectOptions,
+} from '@/db/queries/brands/list';
+import { getCategoriesSelectOptions } from '@/db/queries/categories/list';
+import { getProductsCount } from '@/db/queries/products/list';
 import { PRODUCT_STATUS_OPTIONS } from '@/app/admin/config/products.config';
 import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
 import Link from 'next/link';
@@ -51,8 +52,8 @@ const Products = async ({ searchParams }: ProductsProps) => {
 
   const totalPages = Math.ceil(totalProducts / DEFAULT_PAGE_SIZE);
 
-  const categoryOptions = await getProductsByCategory();
-  const brandOptions = await getProductBrands();
+  const categoryOptions = await getCategoriesSelectOptions();
+  const brandOptions = await getBrandSelectOptions();
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { getProductForEdit } from '@/db/queries/products';
+import { getProductForEdit } from '@/db/queries/products/details';
 import AdminBreadcrumbs from '../../_components/AdminBreadcrumbs';
 
 type PageProps = {

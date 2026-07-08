@@ -2,11 +2,13 @@ import AdminBreadcrumbs from '@/app/admin/_components/AdminBreadcrumbs';
 
 import ProductForm from '../_components/ProductForm';
 
-import { getProductBrands, getProductsByCategory } from '@/db/queries/products';
+import { getCategoriesSelectOptions } from '@/db/queries/categories/list';
+
+import { getProductBrands } from '@/db/queries/brands/list';
 
 const NewProductPage = async () => {
   const brands = await getProductBrands();
-  const categories = await getProductsByCategory();
+  const categories = await getCategoriesSelectOptions();
 
   return (
     <>

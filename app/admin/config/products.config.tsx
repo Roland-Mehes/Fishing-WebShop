@@ -1,4 +1,4 @@
-import { ProductListItem } from '@/db/queries/products';
+import { ProductListItem } from '@/db/queries/products/list';
 import { TableColumn } from '../_components/data-table/types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
