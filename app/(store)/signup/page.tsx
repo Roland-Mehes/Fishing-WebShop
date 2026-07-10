@@ -41,7 +41,7 @@ const Signup = () => {
 
   return (
     <form onSubmit={handleSignUp}>
-      <div className="w-full max-w-md m-auto grid gap-6 ">
+      <div className="w-full max-w-lg m-auto grid gap-6 ">
         <div className="grid gap-2">
           <Label htmlFor="name">Name</Label>
           <Input

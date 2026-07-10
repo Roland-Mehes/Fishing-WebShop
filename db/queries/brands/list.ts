@@ -9,10 +9,6 @@ export async function getBrandsList({ search }: { search?: string }) {
     filters.push(ilike(brands.name, `%${search}%`));
   }
 
-  // return db.query.brands.findMany({
-  //   where: filters.length ? and(...filters) : undefined,
-  // });
-
   return await db
     .select({
       id: brands.id,

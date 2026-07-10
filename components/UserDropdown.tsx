@@ -22,7 +22,7 @@ const UserDropdown = async () => {
           <User />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-48">
+      <DropdownMenuContent align="end" sideOffset={8} className=" w-48">
         <div className="flex flex-col gap-2 bg-background rounded">
           {!session ? (
             <>

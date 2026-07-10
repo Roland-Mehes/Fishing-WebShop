@@ -2,6 +2,7 @@ import Sidebar from './_components/Sidebar';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import AdminHeader from './_components/AdminHeader';
 
 export default async function AdminLayout({
   children,
@@ -19,7 +20,9 @@ export default async function AdminLayout({
       <Sidebar />
 
       <div className="flex flex-1 flex-col min-w-0">
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <AdminHeader />
+
+        <main className="flex-1 overflow-auto p-1 lg:p-6">{children}</main>
       </div>
     </div>
   );

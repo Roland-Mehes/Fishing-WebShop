@@ -14,7 +14,7 @@ const Header = () => {
     <header>
       {/* Top row */}
       <div className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 flex items-center py-4">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 flex items-center py-4 ">
           {/* Logo */}
           <Logo />
 

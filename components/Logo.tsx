@@ -16,7 +16,7 @@ const sizeMap = {
 
 const Logo = ({ size = 'lg', priority = false, className }: LogoProps) => {
   return (
-    <Link href="/" className="inline-flex items-center">
+    <Link href="/" className="inline-flex items-center ">
       <Image
         src="/logo.svg"
         alt="Logo"
