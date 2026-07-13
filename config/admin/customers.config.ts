@@ -1,5 +1,5 @@
 import type { CustomerListItem } from '@/db/queries/customers';
-import type { TableColumn } from '../_components/data-table/types';
+import type { TableColumn } from '../../app/admin/_components/data-table/types';
 
 export const customerColumns = [
   {

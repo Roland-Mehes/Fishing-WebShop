@@ -2,7 +2,7 @@ import { DataTable } from '../../_components/data-table/DataTable';
 
 import { getProductsList } from '@/db/queries/products/list';
 
-import { productColumns } from '@/app/admin/config/products.config';
+import { productColumns } from '@/config/admin/products.config';
 
 type ProductTableProps = {
   categoryId?: string;

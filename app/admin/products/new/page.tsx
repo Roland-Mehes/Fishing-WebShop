@@ -1,5 +1,3 @@
-import AdminBreadcrumbs from '@/app/admin/_components/AdminBreadcrumbs';
-
 import ProductForm from '../_components/ProductForm';
 
 import { getCategoriesSelectOptions } from '@/db/queries/categories/list';
@@ -12,18 +10,6 @@ const NewProductPage = async () => {
 
   return (
     <>
-      <AdminBreadcrumbs
-        breadcrumbs={[
-          {
-            label: 'Products',
-            href: '/admin/products',
-          },
-          {
-            label: 'New Product',
-          },
-        ]}
-      />
-
       <div className="mb-6">
         <h1 className="text-2xl font-semibold">Add Product</h1>
 

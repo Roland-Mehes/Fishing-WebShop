@@ -1,5 +1,4 @@
 import { getProductForEdit } from '@/db/queries/products/details';
-import AdminBreadcrumbs from '../../_components/AdminBreadcrumbs';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -19,12 +18,6 @@ const page = async ({ params }: PageProps) => {
 
   return (
     <div>
-      <AdminBreadcrumbs
-        breadcrumbs={[
-          { label: 'Products', href: '/admin/products' },
-          { label: product.name },
-        ]}
-      />
       <h1>{product.name}</h1>
 
       <p>Brand: {product.brand?.name}</p>

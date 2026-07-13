@@ -1,8 +1,8 @@
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import AdminBreadcrumbs from '../_components/AdminBreadcrumbs';
 import SearchInput from '../products/_components/SearchInput';
 import { Button } from '@/components/ui/button';
 import BrandTable from './_components/BrandTable';
+import Link from 'next/link';
 
 type BrandsProps = {
   searchParams: Promise<{
@@ -21,13 +21,6 @@ const Brands = async ({ searchParams }: BrandsProps) => {
 
   return (
     <div>
-      <AdminBreadcrumbs
-        breadcrumbs={[
-          { label: 'Dashboard', href: '/admin' },
-          { label: 'Brands' },
-        ]}
-      />
-
       <Card className="my-6">
         <CardContent>
           <div className="space-y-3">
@@ -36,7 +29,9 @@ const Brands = async ({ searchParams }: BrandsProps) => {
             <div className="flex justify-between items-center gap-2">
               <div>Toate: 127 Active: 119 Inactive: 8</div>
               <div>
-                <Button>Add New</Button>
+                <Link href="./brands/new/">
+                  <Button>Add New</Button>
+                </Link>
               </div>
             </div>
           </div>

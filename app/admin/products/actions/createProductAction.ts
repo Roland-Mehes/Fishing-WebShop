@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 
 import { createProduct } from './createProduct';
-import { createProductSchema } from '../../../../lib/validation/product-schema';
+import { createProductSchema } from '../../../../lib/validation/products/create-product-schema';
 
 export async function createProductAction(formData: FormData) {
   const parsed = createProductSchema.safeParse({

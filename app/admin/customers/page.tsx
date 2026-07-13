@@ -1,6 +1,5 @@
 import { getCustomers } from '@/db/queries/customers';
-import { customerColumns } from '../config/customers.config';
-import AdminBreadcrumbs from '../_components/AdminBreadcrumbs';
+import { customerColumns } from '../../../config/admin/customers.config';
 import { DataTable } from '../_components/data-table/DataTable';
 import SearchInput from '../products/_components/SearchInput';
 
@@ -17,8 +16,6 @@ const CustomerTable = async ({ searchParams }: CustomerTableProps) => {
 
   return (
     <div>
-      <AdminBreadcrumbs breadcrumbs={[{ label: 'Customers' }]} />
-
       <SearchInput placeholder="Cauta dupa Nume sau Email" />
 
       <DataTable

@@ -1,7 +1,7 @@
 import { buildProductFilters } from './filters';
 import { db } from '@/db';
 import { products, brands, productVariants, categories } from '@/db/schema';
-import { eq, and, count } from 'drizzle-orm';
+import { eq, and, count, isNull } from 'drizzle-orm';
 import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
 
 import { primaryImageSubquery } from './subqueries';
@@ -52,7 +52,12 @@ export async function getProductsList({
       primaryImageSubquery,
       eq(primaryImageSubquery.productId, products.id),
     )
-    .where(filters.length ? and(...filters) : undefined)
+    .where(
+      and(
+        isNull(brands.deletedAt),
+        filters.length ? and(...filters) : undefined,
+      ),
+    )
     .limit(limit)
     .offset(offset);
 }

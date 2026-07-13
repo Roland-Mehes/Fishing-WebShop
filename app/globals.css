@@ -166,6 +166,10 @@ Instrument Sans */
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   body {
@@ -179,7 +183,12 @@ Instrument Sans */
   body {
     height: 100%;
     overflow-x: hidden;
+    background: var(--background);
   }
+
+  /* * {
+    outline: 1px solid red;
+  } */
 
   ::selection {
     background: var(--primary);

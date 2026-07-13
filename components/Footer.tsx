@@ -1,59 +1,33 @@
 import Logo from './Logo';
 import Link from 'next/link';
-
-const footerSections = [
-  {
-    title: 'Shop',
-    items: [
-      { label: 'Products', href: '/products' },
-      { label: 'Brands', href: '/brands' },
-      { label: 'Deals', href: '/deals' },
-    ],
-  },
-  {
-    title: 'Info',
-    items: [
-      { label: 'Contact', href: '/contact' },
-      { label: 'Shipping', href: '/shipping' },
-      { label: 'Payment', href: '/payment' },
-    ],
-  },
-  {
-    title: 'Support',
-    items: [
-      { label: 'FAQ', href: '/faq' },
-      { label: 'Returns', href: '/returns' },
-    ],
-  },
-  {
-    title: 'Social',
-    items: [
-      { label: 'Facebook', href: 'https://facebook.com' },
-      { label: 'Instagram', href: 'https://instagram.com' },
-    ],
-  },
-];
+import { FOOTER_ITEMS } from '@/config/navigation';
 
 const Footer = () => {
   return (
     <footer className="border-t border-border mt-20">
       <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row justify-between gap-10 text-sm text-white/60">
-          <div className="max-w-sm">
+        <div className="flex flex-col md:flex-row justify-between gap-10">
+          <div className="max-w-md">
             <Logo />
-            <p className="mt-2">
-              Fishing gear store in Oradea. Quality, reliability, expertise.
+            <p className="mt-4 text-sm text-muted-foreground">
+              Magazin de articole pentru pescuit din Oradea. Lansete, mulinete,
+              nade si accesorii de la producatori de top.
             </p>
+            <div className="mt-4 space-y-1 text-sm text-muted-foreground">
+              <p>📍 Oradea, Bihor</p>
+              <p>📞 +40 7xx xxx xxx</p>
+              <p>✉️ contact@garnaizsolt.ro</p>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {footerSections.map((section) => (
+            {FOOTER_ITEMS.map((section) => (
               <FooterCol key={section.title} {...section} />
             ))}
           </div>
         </div>
 
-        <div className="mt-10 text-xs text-muted-foreground/60">
+        <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:justify-between">
           © 2026 Garnai Zsolt Fishing Shop
         </div>
       </div>

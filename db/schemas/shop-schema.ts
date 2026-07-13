@@ -28,7 +28,7 @@ export const brands = pgTable('brands', {
   id: uuid('id').defaultRandom().primaryKey(),
 
   name: varchar('name', {
-    length: 255,
+    length: 100,
   })
     .unique()
     .notNull(),
@@ -39,10 +39,10 @@ export const brands = pgTable('brands', {
     .unique()
     .notNull(),
 
+  logoKey: text(),
+
   createdAt: timestamp('created_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
-
-  brandLogoUrl: text('logo_url'),
 });
 
 /* =========================

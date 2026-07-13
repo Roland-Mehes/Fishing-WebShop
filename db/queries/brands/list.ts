@@ -1,9 +1,10 @@
 import { db } from '@/db';
 import { brands, products } from '@/db/schema';
 import { and, ilike, count, eq } from 'drizzle-orm';
+import { isNull } from 'drizzle-orm';
 
 export async function getBrandsList({ search }: { search?: string }) {
-  const filters = [];
+  const filters = [isNull(brands.deletedAt)];
 
   if (search?.trim()) {
     filters.push(ilike(brands.name, `%${search}%`));
@@ -14,8 +15,9 @@ export async function getBrandsList({ search }: { search?: string }) {
       id: brands.id,
       name: brands.name,
       slug: brands.slug,
-      brandLogoUrl: brands.brandLogoUrl,
+      brandLogoUrl: brands.logoKey,
       createdAt: brands.createdAt,
+      deletedAt: brands.deletedAt,
       productCount: count(products.id),
     })
     .from(brands)
@@ -25,8 +27,9 @@ export async function getBrandsList({ search }: { search?: string }) {
       brands.id,
       brands.name,
       brands.slug,
-      brands.brandLogoUrl,
+      brands.logoKey,
       brands.createdAt,
+      brands.deletedAt,
     );
 }
 
@@ -39,7 +42,7 @@ export async function getProductBrands() {
     id: brand.id,
     label: brand.name,
     value: brand.id,
-    logo: brand.brandLogoUrl,
+    logo: brand.logoKey,
   }));
 }
 
@@ -51,17 +54,3 @@ export async function getBrandSelectOptions() {
     value: brand.id,
   }));
 }
-
-// export async function getBrandWithProductCount() {
-//   return await db
-//     .select({
-//       id: brands.id,
-//       name: brands.name,
-//       slug: brands.slug,
-//       logoUrl: brands.brandLogoUrl,
-//       productCount: count(products.id),
-//     })
-//     .from(brands)
-//     .leftJoin(products, eq(products.brandId, brands.id))
-//     .groupBy(brands.id, brands.name, brands.slug, brands.brandLogoUrl);
-// }

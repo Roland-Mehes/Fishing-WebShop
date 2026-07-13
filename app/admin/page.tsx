@@ -1,18 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import AdminBreadcrumbs from './_components/AdminBreadcrumbs';
 
 export default function Admin() {
   return (
     <div className="space-y-6 ">
-      <AdminBreadcrumbs
-        breadcrumbs={[
-          {
-            label: 'Dashboard',
-            href: '/admin',
-          },
-        ]}
-      />
-
       {/* Header */}
       <div>
         <h2 className="text-2xl font-semibold text-foreground">Dashboard</h2>

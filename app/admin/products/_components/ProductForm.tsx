@@ -32,7 +32,7 @@ export default function ProductForm({ brands, categories }: ProductFormProps) {
               <select
                 name="brandId"
                 required
-                className="w-full rounded-md border px-3 py-2"
+                className="w-full rounded-md border px-3 py-2 bg-muted"
               >
                 <option value="">Select Brand</option>
 

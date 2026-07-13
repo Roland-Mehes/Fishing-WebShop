@@ -1,9 +1,9 @@
 import { ProductListItem } from '@/db/queries/products/list';
-import { TableColumn } from '../_components/data-table/types';
+import { TableColumn } from '../../app/admin/_components/data-table/types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/lib/formatters/currency';
-import ProductActions from '../products/_components/ProductActions';
+import ProductActions from '../../app/admin/products/_components/ProductActions';
 
 export const productColumns = [
   {
