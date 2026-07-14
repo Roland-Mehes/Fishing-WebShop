@@ -10,10 +10,6 @@ import {
   productAttributes,
   attributeDefinitions,
   discounts,
-  reviews,
-  user,
-  session,
-  account,
 } from './schema';
 
 function slugify(value: string) {
@@ -27,12 +23,6 @@ function slugify(value: string) {
 
 async function seed() {
   console.log('Seeding...');
-
-  await db.delete(session);
-  await db.delete(account);
-
-  await db.delete(reviews);
-  await db.delete(user);
 
   await db.delete(discounts);
   await db.delete(productVariantAttributes);
@@ -151,59 +141,6 @@ async function seed() {
     ['Cralusso', 'Method kosarak', 'Cralusso Method Basket'],
   ];
 
-  const demoUsers = await db
-    .insert(user)
-    .values([
-      {
-        id: 'seed-user-1',
-        name: 'Kovács Péter',
-        email: 'peter@example.com',
-        role: 'customer',
-        emailVerified: true,
-      },
-      {
-        id: 'seed-user-2',
-        name: 'Nagy Gábor',
-        email: 'gabor@example.com',
-        role: 'customer',
-        emailVerified: true,
-      },
-      {
-        id: 'seed-admin',
-        name: 'Admin',
-        email: 'admin@example.com',
-        role: 'super_admin',
-        emailVerified: true,
-      },
-    ])
-    .returning();
-
-  const userMap = Object.fromEntries(demoUsers.map((u) => [u.id, u]));
-
-  await db.insert(account).values([
-    {
-      id: 'account-1',
-      accountId: 'peter@example.com',
-      providerId: 'credentials',
-      userId: userMap['seed-user-1'].id,
-      password: '$2b$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    },
-    {
-      id: 'account-2',
-      accountId: 'gabor@example.com',
-      providerId: 'credentials',
-      userId: userMap['seed-user-2'].id,
-      password: '$2b$12$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    },
-    {
-      id: 'account-admin',
-      accountId: 'admin@example.com',
-      providerId: 'credentials',
-      userId: 'seed-admin',
-      password: 'admin',
-    },
-  ]);
-
   for (const [brand, category, name] of productDefs) {
     const [product] = await db
       .insert(products)
@@ -226,24 +163,315 @@ async function seed() {
       isPrimary: true,
     });
 
-    await db.insert(reviews).values([
-      {
-        productId: product.id,
-        userId: userMap['seed-user-1'].id,
-        rating: 5,
-        title: 'Kiváló minőség',
-        comment: 'Nagyon bevált a vízparton.',
-        approved: true,
-      },
-      {
-        productId: product.id,
-        userId: userMap['seed-user-1'].id,
-        rating: 4,
-        title: 'Ajánlott',
-        comment: 'Jó ár-érték arány.',
-        approved: true,
-      },
-    ]);
+    // FEEDER RODS
+    if (category === 'Feeder botok') {
+      const variants = await db
+        .insert(productVariants)
+        .values([
+          {
+            productId: product.id,
+            variantName: '330cm / 20-80g',
+            sku: `${slugify(name)}-330`,
+            price: 199.99,
+            stock: 5,
+            isDefault: true,
+          },
+          {
+            productId: product.id,
+            variantName: '360cm / 40-130g',
+            sku: `${slugify(name)}-360`,
+            price: 229.99,
+            stock: 8,
+          },
+          {
+            productId: product.id,
+            variantName: '390cm / 60-160g',
+            sku: `${slugify(name)}-390`,
+            price: 259.99,
+            stock: 3,
+          },
+        ])
+        .returning();
+
+      await db.insert(productVariantAttributes).values([
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['hossz'].id,
+          value: '330',
+        },
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['dobosuly'].id,
+          value: '20-80',
+        },
+
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['hossz'].id,
+          value: '360',
+        },
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['dobosuly'].id,
+          value: '40-130',
+        },
+
+        {
+          variantId: variants[2].id,
+          attributeId: attrMap['hossz'].id,
+          value: '390',
+        },
+        {
+          variantId: variants[2].id,
+          attributeId: attrMap['dobosuly'].id,
+          value: '60-160',
+        },
+      ]);
+    }
+
+    // MATCH RODS
+    if (category === 'Match botok') {
+      const variants = await db
+        .insert(productVariants)
+        .values([
+          {
+            productId: product.id,
+            variantName: '390cm',
+            sku: `${slugify(name)}-390`,
+            price: 249.99,
+            stock: 4,
+            isDefault: true,
+          },
+          {
+            productId: product.id,
+            variantName: '420cm',
+            sku: `${slugify(name)}-420`,
+            price: 279.99,
+            stock: 6,
+          },
+        ])
+        .returning();
+
+      await db.insert(productVariantAttributes).values([
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['hossz'].id,
+          value: '390',
+        },
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['hossz'].id,
+          value: '420',
+        },
+      ]);
+    }
+
+    // REELS
+    if (category === 'Feeder orsók') {
+      const variants = await db
+        .insert(productVariants)
+        .values([
+          {
+            productId: product.id,
+            variantName: '4000',
+            sku: `${slugify(name)}-4000`,
+            price: 349.99,
+            stock: 4,
+            isDefault: true,
+          },
+          {
+            productId: product.id,
+            variantName: '5000',
+            sku: `${slugify(name)}-5000`,
+            price: 389.99,
+            stock: 7,
+          },
+          {
+            productId: product.id,
+            variantName: '6000',
+            sku: `${slugify(name)}-6000`,
+            price: 439.99,
+            stock: 2,
+          },
+        ])
+        .returning();
+
+      await db.insert(productVariantAttributes).values([
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['meret'].id,
+          value: '4000',
+        },
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['meret'].id,
+          value: '5000',
+        },
+        {
+          variantId: variants[2].id,
+          attributeId: attrMap['meret'].id,
+          value: '6000',
+        },
+      ]);
+    }
+
+    // MONOFIL LINE
+    if (category === 'Monofil zsinórok') {
+      const variants = await db
+        .insert(productVariants)
+        .values([
+          {
+            productId: product.id,
+            variantName: '0.20mm / 300m',
+            sku: `${slugify(name)}-020`,
+            price: 24.99,
+            stock: 15,
+            isDefault: true,
+          },
+          {
+            productId: product.id,
+            variantName: '0.22mm / 300m',
+            sku: `${slugify(name)}-022`,
+            price: 27.99,
+            stock: 12,
+          },
+          {
+            productId: product.id,
+            variantName: '0.25mm / 300m',
+            sku: `${slugify(name)}-025`,
+            price: 29.99,
+            stock: 8,
+          },
+        ])
+        .returning();
+
+      await db.insert(productVariantAttributes).values([
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['atmero'].id,
+          value: '0.20',
+        },
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['atmero'].id,
+          value: '0.22',
+        },
+        {
+          variantId: variants[2].id,
+          attributeId: attrMap['atmero'].id,
+          value: '0.25',
+        },
+      ]);
+    }
+    // BRAID
+    if (category === 'Fonott zsinórok') {
+      const variants = await db
+        .insert(productVariants)
+        .values([
+          {
+            productId: product.id,
+            variantName: '0.08mm',
+            sku: `${slugify(name)}-008`,
+            price: 49.99,
+            stock: 10,
+            isDefault: true,
+          },
+          {
+            productId: product.id,
+            variantName: '0.10mm',
+            sku: `${slugify(name)}-010`,
+            price: 54.99,
+            stock: 8,
+          },
+          {
+            productId: product.id,
+            variantName: '0.12mm',
+            sku: `${slugify(name)}-012`,
+            price: 59.99,
+            stock: 5,
+          },
+        ])
+        .returning();
+
+      await db.insert(productVariantAttributes).values([
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['atmero'].id,
+          value: '0.08',
+        },
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['atmero'].id,
+          value: '0.10',
+        },
+        {
+          variantId: variants[2].id,
+          attributeId: attrMap['atmero'].id,
+          value: '0.12',
+        },
+      ]);
+    }
+
+    // HOOKS
+    if (category === 'Szakáll nélküli horgok') {
+      const variants = await db
+        .insert(productVariants)
+        .values([
+          {
+            productId: product.id,
+            variantName: '#10',
+            sku: `${slugify(name)}-10`,
+            price: 19.99,
+            stock: 25,
+            isDefault: true,
+          },
+          {
+            productId: product.id,
+            variantName: '#12',
+            sku: `${slugify(name)}-12`,
+            price: 19.99,
+            stock: 30,
+          },
+          {
+            productId: product.id,
+            variantName: '#14',
+            sku: `${slugify(name)}-14`,
+            price: 19.99,
+            stock: 18,
+          },
+          {
+            productId: product.id,
+            variantName: '#16',
+            sku: `${slugify(name)}-16`,
+            price: 19.99,
+            stock: 11,
+          },
+        ])
+        .returning();
+
+      await db.insert(productVariantAttributes).values([
+        {
+          variantId: variants[0].id,
+          attributeId: attrMap['meret'].id,
+          value: '10',
+        },
+        {
+          variantId: variants[1].id,
+          attributeId: attrMap['meret'].id,
+          value: '12',
+        },
+        {
+          variantId: variants[2].id,
+          attributeId: attrMap['meret'].id,
+          value: '14',
+        },
+        {
+          variantId: variants[3].id,
+          attributeId: attrMap['meret'].id,
+          value: '16',
+        },
+      ]);
+    }
   }
 
   console.log('Seed finished.');

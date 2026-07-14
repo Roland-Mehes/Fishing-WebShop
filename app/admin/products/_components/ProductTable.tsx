@@ -31,7 +31,7 @@ export default async function ProductTable({
     <DataTable
       data={products}
       columns={productColumns}
-      getRowId={(p) => p.id}
+      getRowId={(product) => product.id}
     />
   );
 }

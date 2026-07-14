@@ -1,7 +1,7 @@
 import { buildProductFilters } from './filters';
 import { db } from '@/db';
 import { products, brands, productVariants, categories } from '@/db/schema';
-import { eq, and, count, isNull } from 'drizzle-orm';
+import { eq, and, count, isNull, sql } from 'drizzle-orm';
 import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
 
 import { primaryImageSubquery } from './subqueries';
@@ -37,20 +37,22 @@ export async function getProductsList({
       createdAt: products.createdAt,
       brandName: brands.name,
       imageUrl: primaryImageSubquery.imageUrl,
-      price: productVariants.price,
-      ean: productVariants.ean,
-      sku: productVariants.sku,
-      stock: productVariants.stock,
       category: categories.name,
       active: products.active,
+      variantsCount: sql<number>`
+  coalesce(${variantsCountSubquery.variantsCount}, 0)
+`.as('variants_count'),
     })
     .from(products)
     .leftJoin(brands, eq(products.brandId, brands.id))
-    .leftJoin(productVariants, eq(productVariants.productId, products.id))
     .leftJoin(categories, eq(categories.id, products.categoryId))
     .leftJoin(
       primaryImageSubquery,
       eq(primaryImageSubquery.productId, products.id),
+    )
+    .leftJoin(
+      variantsCountSubquery,
+      eq(variantsCountSubquery.productId, products.id),
     )
     .where(
       and(
@@ -66,6 +68,19 @@ export type ProductListItem = Awaited<
   ReturnType<typeof getProductsList>
 >[number];
 
+// Total Product Variant Count
+
+const variantsCountSubquery = db
+  .select({
+    productId: productVariants.productId,
+    variantsCount: count(productVariants.id).as('variants_count'),
+  })
+  .from(productVariants)
+  .groupBy(productVariants.productId)
+  .as('variants_count_subquery');
+
+// Total Product Count
+
 export async function getProductsCount(filters: ProductListFilters) {
   const whereFilters = buildProductFilters(filters);
 
@@ -74,7 +89,6 @@ export async function getProductsCount(filters: ProductListFilters) {
       count: count(),
     })
     .from(products)
-    .leftJoin(productVariants, eq(productVariants.productId, products.id))
     .where(whereFilters.length ? and(...whereFilters) : undefined);
 
   return total;

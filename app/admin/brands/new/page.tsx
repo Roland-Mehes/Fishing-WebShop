@@ -69,8 +69,8 @@ const AddNewBrand = () => {
       const result = await createBrand(formData);
 
       if (!result.success) {
-        console.log(result);
-        return;
+        throw new Error('Baj van! : ' + result.error);
+        // return;
       }
       reset();
       setImage(null);

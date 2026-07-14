@@ -4,7 +4,7 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-const page = async ({ params }: PageProps) => {
+const ProductVariants = async ({ params }: PageProps) => {
   const { id } = await params;
 
   // product slug = ex. cralusso-method-basket
@@ -32,4 +32,4 @@ const page = async ({ params }: PageProps) => {
   );
 };
 
-export default page;
+export default ProductVariants;

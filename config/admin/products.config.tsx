@@ -2,10 +2,14 @@ import { ProductListItem } from '@/db/queries/products/list';
 import { TableColumn } from '../../app/admin/_components/data-table/types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { formatCurrency } from '@/lib/formatters/currency';
 import ProductActions from '../../app/admin/products/_components/ProductActions';
 
 export const productColumns = [
+  {
+    key: 'logo',
+    header: 'Logo',
+    render: (product) => (product.imageUrl ? 'van logo' : 'Nincs Logo'),
+  },
   {
     key: 'name',
     header: 'Nume',
@@ -17,33 +21,20 @@ export const productColumns = [
         >
           {product.name}
         </Link>
-        <p className="text-xs text-muted-foreground">{product.sku}</p>
       </div>
     ),
   },
   {
-    key: 'brand',
-    header: 'Brand',
-    render: (product: ProductListItem) => product.brandName,
-  },
-  {
     key: 'category',
-    header: 'Category',
+    header: 'Categorie',
     render: (product: ProductListItem) => product.category,
   },
 
   {
-    key: 'price',
-    header: 'Pret',
-    render: (product: ProductListItem) =>
-      product.price ? `${formatCurrency(product.price)}` : '-',
-  },
-
-  {
-    key: 'stock',
-    header: 'Stock',
+    key: 'variants',
+    header: 'Variante',
     render: (product: ProductListItem) => (
-      <div className="flex items-center gap-2">{product.stock}</div>
+      <div className="flex items-center gap-2">{product.variantsCount}</div>
     ),
   },
 
