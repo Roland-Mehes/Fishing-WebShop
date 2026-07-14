@@ -14,14 +14,12 @@ export const productColumns = [
     key: 'name',
     header: 'Nume',
     render: (product: ProductListItem) => (
-      <div className="flex gap-2 items-center">
-        <Link
-          className={`font-medium hover:underline`}
-          href={`/admin/products/${product.id}`}
-        >
-          {product.name}
-        </Link>
-      </div>
+      <Link
+        className={`font-medium hover:underline`}
+        href={`/admin/products/${product.id}`}
+      >
+        {product.name}
+      </Link>
     ),
   },
   {

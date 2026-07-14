@@ -39,9 +39,10 @@ export async function getProductsList({
       imageUrl: primaryImageSubquery.imageUrl,
       category: categories.name,
       active: products.active,
-      variantsCount: sql<number>`
-  coalesce(${variantsCountSubquery.variantsCount}, 0)
-`.as('variants_count'),
+      variantsCount:
+        sql<number>`coalesce(${variantsCountSubquery.variantsCount}, 0)`.as(
+          'variants_count',
+        ),
     })
     .from(products)
     .leftJoin(brands, eq(products.brandId, brands.id))

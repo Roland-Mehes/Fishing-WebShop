@@ -1,4 +1,7 @@
-import { getProductForEdit } from '@/db/queries/products/details';
+import { DataTable } from '../../_components/data-table/DataTable';
+
+import { getProductVariants } from '@/db/queries/products/variants';
+import { VariantColumns } from '@/config/admin/product-variants.config';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -6,28 +9,14 @@ type PageProps = {
 
 const ProductVariants = async ({ params }: PageProps) => {
   const { id } = await params;
-
-  // product slug = ex. cralusso-method-basket
-  const product = await getProductForEdit(id);
-
-  if (!product) {
-    return <div>{id} Not found!</div>;
-  }
-
-  const primaryImage = product.images.find((image) => image.isPrimary);
-
+  const productVariants = await getProductVariants(id);
   return (
     <div>
-      <h1>{product.name}</h1>
-
-      <p>Brand: {product.brand?.name}</p>
-      <p>Category: {product.category?.name}</p>
-
-      {/* {primaryImage?.imageUrl} */}
-
-      {product.images.map((image, idx) => (
-        <p key={idx}>{image.imageUrl}</p>
-      ))}
+      <DataTable
+        data={productVariants}
+        columns={VariantColumns}
+        getRowId={(variant) => variant.id}
+      />
     </div>
   );
 };
