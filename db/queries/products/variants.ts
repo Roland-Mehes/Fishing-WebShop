@@ -6,7 +6,8 @@ import { eq } from 'drizzle-orm';
 export async function getProductVariants(productId: string) {
   return db
     .select({
-      id: productVariants.id,
+      variantId: productVariants.id,
+      productId: productVariants.productId,
       variantName: productVariants.variantName,
       sku: productVariants.sku,
       ean: productVariants.ean,
@@ -23,3 +24,27 @@ export async function getProductVariants(productId: string) {
 export type VariantListItems = Awaited<
   ReturnType<typeof getProductVariants>
 >[number];
+
+// Get Product Variant Attributes
+
+export const getVariantById = async (variantId: string) => {
+  const [variant] = await db
+    .select({
+      variantId: productVariants.id,
+      productId: productVariants.productId,
+      variantName: productVariants.variantName,
+      sku: productVariants.sku,
+      ean: productVariants.ean,
+      price: productVariants.price,
+      stock: productVariants.stock,
+      reservedStock: productVariants.reservedStock,
+      active: productVariants.active,
+      isDefault: productVariants.isDefault,
+    })
+    .from(productVariants)
+    .where(eq(productVariants.id, variantId));
+
+  return variant;
+};
+
+export type ProductVariant = Awaited<ReturnType<typeof getVariantById>>;

@@ -1,6 +1,6 @@
 import { db } from '@/db';
-import { productImages } from '@/db/schema';
-import { sql } from 'drizzle-orm';
+import { productImages, productVariants } from '@/db/schema';
+import { sql, count } from 'drizzle-orm';
 
 export const primaryImageSubquery = db
   .selectDistinctOn([productImages.productId], {
@@ -14,3 +14,13 @@ export const primaryImageSubquery = db
     productImages.sortOrder,
   )
   .as('primaryImage');
+
+// Total Product Variant Count
+export const variantsCountSubquery = db
+  .select({
+    productId: productVariants.productId,
+    variantsCount: count(productVariants.id).as('variants_count'),
+  })
+  .from(productVariants)
+  .groupBy(productVariants.productId)
+  .as('variants_count_subquery');

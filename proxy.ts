@@ -5,8 +5,6 @@ import { headers } from 'next/headers';
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // ADMIN PROTECT
-
   // Admin
   if (pathname.startsWith('/admin')) {
     const session = await auth.api.getSession({
@@ -40,5 +38,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login', '/signup'], // Specify the routes the middleware applies to
+  matcher: ['/admin/:path*', '/login', '/signup'],
 };

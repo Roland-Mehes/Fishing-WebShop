@@ -16,13 +16,15 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen theme-admin bg-background">
+    <div className="flex theme-admin bg-background">
       <Sidebar />
 
       <div className="flex flex-1 flex-col min-w-0">
         <AdminHeader />
 
-        <main className="flex-1 overflow-auto p-1 lg:p-6">{children}</main>
+        <main className="flex-1 min-h-screen overflow-auto p-1 lg:p-6">
+          {children}
+        </main>
       </div>
     </div>
   );

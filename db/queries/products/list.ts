@@ -1,10 +1,10 @@
 import { buildProductFilters } from './filters';
 import { db } from '@/db';
-import { products, brands, productVariants, categories } from '@/db/schema';
+import { products, brands, categories } from '@/db/schema';
 import { eq, and, count, isNull, sql } from 'drizzle-orm';
 import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
 
-import { primaryImageSubquery } from './subqueries';
+import { primaryImageSubquery, variantsCountSubquery } from './subqueries';
 
 export type ProductListFilters = {
   categoryId?: string;
@@ -16,6 +16,8 @@ export type ProductListFilters = {
 
   search?: string;
 };
+
+// A list about ALL product
 
 export async function getProductsList({
   categoryId,
@@ -69,16 +71,19 @@ export type ProductListItem = Awaited<
   ReturnType<typeof getProductsList>
 >[number];
 
-// Total Product Variant Count
+// Get only one specific Product by Id
 
-const variantsCountSubquery = db
-  .select({
-    productId: productVariants.productId,
-    variantsCount: count(productVariants.id).as('variants_count'),
-  })
-  .from(productVariants)
-  .groupBy(productVariants.productId)
-  .as('variants_count_subquery');
+export const getProductById = async (productId: string) => {
+  const [product] = await db
+    .select({
+      id: products.id,
+      name: products.name,
+    })
+    .from(products)
+    .where(eq(products.id, productId));
+
+  return product;
+};
 
 // Total Product Count
 

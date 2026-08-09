@@ -1,8 +1,7 @@
 import type { TableColumn } from '@/app/admin/_components/data-table/types';
-import ProductActions from '@/app/admin/products/_components/ProductActions';
+import VariantActions from '@/app/admin/products/_components/VariantActions';
 import type { VariantListItems } from '@/db/queries/products/variants';
 import { formatCurrency } from '@/lib/formatters/currency';
-import Link from 'next/link';
 
 export const VariantColumns = [
   {
@@ -49,8 +48,12 @@ export const VariantColumns = [
   {
     key: 'actions',
     header: '',
-    render: (variant) => (
-      <ProductActions productId={variant.id} active={variant.active} />
+    render: (variant: VariantListItems) => (
+      <VariantActions
+        productId={variant.productId}
+        variantId={variant.variantId}
+        active={variant.active}
+      />
     ),
   },
 ] satisfies TableColumn<VariantListItems>[];

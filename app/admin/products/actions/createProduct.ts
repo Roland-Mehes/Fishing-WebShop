@@ -3,7 +3,7 @@ import { db } from '@/db';
 import { products } from '@/db/schema';
 import { generateSlug } from '@/lib/generateSlug';
 import { eq } from 'drizzle-orm';
-import { CreateProductFormData } from '../../../../lib/validation/products/create-product-schema';
+import { CreateProductFormData } from '@/lib/validation/products/create-product-schema';
 
 export const createProduct = async (data: CreateProductFormData) => {
   const slug = await generateUniqueProductSlug(data.name);

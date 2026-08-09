@@ -1,6 +1,7 @@
 import { Inter, Oswald } from 'next/font/google';
 import './globals.css';
 import { ThemeController } from '@/lib/ThemeSwitch';
+import { Toaster } from 'sonner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default function RootLayout({
         <div className="relative flex flex-col">
           <ThemeController />
           {children}
+          <Toaster richColors position="top-right" />
         </div>
       </body>
     </html>

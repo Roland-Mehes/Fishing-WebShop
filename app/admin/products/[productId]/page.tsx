@@ -1,21 +1,25 @@
 import { DataTable } from '../../_components/data-table/DataTable';
 
 import { getProductVariants } from '@/db/queries/products/variants';
+
 import { VariantColumns } from '@/config/admin/product-variants.config';
 
 type PageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ productId: string }>;
 };
 
 const ProductVariants = async ({ params }: PageProps) => {
-  const { id } = await params;
-  const productVariants = await getProductVariants(id);
+  const { productId } = await params;
+
+  const variants = await getProductVariants(productId);
+
   return (
-    <div>
+    <div className="space-y-4">
+      <p className="text-muted-foreground ">{variants.length} variante</p>
       <DataTable
-        data={productVariants}
+        data={variants}
         columns={VariantColumns}
-        getRowId={(variant) => variant.id}
+        getRowId={(variant) => variant.variantId}
       />
     </div>
   );

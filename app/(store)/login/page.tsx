@@ -15,6 +15,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Field } from '@/components/ui/field';
 import { Label } from '@/components/ui/label';
 import { Feature } from '@/components/Feature';
+import { PasswordInput } from '@/components/ui/password-input';
 
 import { useState } from 'react';
 
@@ -151,19 +152,17 @@ const Login = () => {
                     </Label>
                   </div>
 
-                  <Input
+                  <PasswordInput
                     id="password"
-                    type="password"
-                    placeholder="••••••••"
+                    placeholder="password"
+                    className=" bg-background
+                    border-border
+                    focus-visible:ring-primary/40 "
                     {...register('password', {
                       onChange: () => setErrorMsg(''),
                     })}
-                    className="
-                    bg-background
-                    border-border
-                    focus-visible:ring-primary/40
-                  "
                   />
+
                   {errors.password && (
                     <p className="text-sm text-destructive">
                       {' '}
