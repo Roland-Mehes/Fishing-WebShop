@@ -1,7 +1,7 @@
 'use client';
 
 import { useTransition } from 'react';
-import { deleteBrand } from '@/db/queries/brands/delete';
+import { deleteBrand } from '@/db/mutations/brands/delete';
 
 import {
   DropdownMenu,

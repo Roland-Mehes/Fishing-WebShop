@@ -1,21 +1,10 @@
-import { buildProductFilters } from './filters';
+import { buildProductFilters, type ProductListFilters } from './filters';
 import { db } from '@/db';
 import { products, brands, categories } from '@/db/schema';
 import { eq, and, count, isNull, sql } from 'drizzle-orm';
 import { DEFAULT_PAGE_SIZE } from '@/lib/pagination';
 
 import { primaryImageSubquery, variantsCountSubquery } from './subqueries';
-
-export type ProductListFilters = {
-  categoryId?: string;
-  brandId?: string;
-  active?: boolean;
-
-  page?: number;
-  pageSize?: number;
-
-  search?: string;
-};
 
 // A list about ALL product
 

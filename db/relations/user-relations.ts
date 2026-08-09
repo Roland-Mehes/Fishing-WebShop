@@ -1,8 +1,6 @@
 import { relations } from 'drizzle-orm';
 
-import { user } from '../schemas/auth-schema';
-import { session } from '../schemas/auth-schema';
-import { account } from '../schemas/auth-schema';
+import { user, session, account } from '../schemas/auth-schema';
 import { userAddresses } from '../schemas/user-address-schema';
 
 export const userRelations = relations(user, ({ many }) => ({

@@ -14,6 +14,6 @@ export async function deleteBrand(id: string) {
   revalidatePath('/admin/brands');
 
   return {
-    succes: true,
+    success: true,
   };
 }
