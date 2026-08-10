@@ -148,7 +148,7 @@ export const productImages = pgTable('product_images', {
     })
     .notNull(),
 
-  imageUrl: text('image_url').notNull(),
+  imageUrl: text('image_url'),
 
   alt: varchar('alt', {
     length: 255,
