@@ -9,15 +9,21 @@ export const brandColumns = [
     header: 'Logo',
     render: (brand: BrandListItem) =>
       brand.brandLogoUrl ? (
-        <Image
-          src={getImageUrl(brand.brandLogoUrl)!}
-          alt={brand.name}
-          className="h-10 w-15 object-contain"
-          width={10}
-          height={10}
-        />
+        <div className="flex h-10 w-15 items-center justify-center">
+          <Image
+            src={getImageUrl(brand.brandLogoUrl)!}
+            alt={brand.name}
+            width={120}
+            height={80}
+            sizes="60px"
+            className="max-h-10 max-w-15 object-contain"
+            unoptimized
+          />
+        </div>
       ) : (
-        'Fara Logo'
+        <div className="flex h-10 w-15 items-center justify-center">
+          <span className="text-sm text-muted-foreground">Fara Logo</span>
+        </div>
       ),
   },
   {

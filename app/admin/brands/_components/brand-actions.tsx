@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { EllipsisVertical } from 'lucide-react';
+import { toast } from 'sonner';
 
 type Props = {
   brandId: string;
@@ -24,10 +25,18 @@ export function BrandActions({ brandId }: Props) {
   const handleDelete = () => {
     const confirmed = confirm('Sigur doresti sa stergi acest producator?');
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
 
     startTransition(async () => {
-      await deleteBrand(brandId);
+      try {
+        await deleteBrand(brandId);
+        toast.success('Producator Sters');
+      } catch (e) {
+        console.error(e);
+        toast.error(`Erroare , nu sa putut sterge producatorul ${brandId} `);
+      }
     });
   };
 

@@ -1,7 +1,7 @@
 'use server';
 
 import slugify from 'slugify';
-import { eq } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import { db } from '@/db';
 import { brands } from '@/db/schema';
@@ -39,7 +39,7 @@ export async function createBrand(formData: FormData) {
   });
 
   const existingBrand = await db.query.brands.findFirst({
-    where: eq(brands.slug, slug),
+    where: and(eq(brands.slug, slug), isNull(brands.deletedAt)),
   });
 
   if (existingBrand) {

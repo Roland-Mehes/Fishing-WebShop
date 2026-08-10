@@ -1,9 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // allowedDevOrigins: ['192.168.0.24', '192.168.3.4'],
+  allowedDevOrigins: ['192.168.3.4'],
 
-  /* config options here */
   images: {
     remotePatterns: [
       {
@@ -13,7 +12,5 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
-module.exports = { allowedDevOrigins: ['192.168.3.4'] };
 
 export default nextConfig;

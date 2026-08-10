@@ -13,6 +13,8 @@ import {
 } from 'drizzle-orm/pg-core';
 
 import { user } from './auth-schema';
+import { uniqueIndex } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 
 /* =========================
  ENUMs
@@ -24,26 +26,34 @@ export const discountEnum = pgEnum('discount_type', ['percentage', 'fixed']);
    BRANDS
 ========================= */
 
-export const brands = pgTable('brands', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const brands = pgTable(
+  'brands',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  name: varchar('name', {
-    length: 100,
-  })
-    .unique()
-    .notNull(),
+    name: varchar('name', {
+      length: 100,
+    }).notNull(),
 
-  slug: varchar('slug', {
-    length: 255,
-  })
-    .unique()
-    .notNull(),
+    slug: varchar('slug', {
+      length: 255,
+    }).notNull(),
 
-  logoKey: text(),
+    logoKey: text(),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-});
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
+  },
+  (table) => [
+    uniqueIndex('brand_name_active_unique')
+      .on(table.name)
+      .where(sql`${table.deletedAt} IS NULL`),
+
+    uniqueIndex('brands_slug_active_unique')
+      .on(table.slug)
+      .where(sql`${table.deletedAt} IS NULL`),
+  ],
+);
 
 /* =========================
    CATEGORIES
