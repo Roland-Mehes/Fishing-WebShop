@@ -27,6 +27,7 @@ import {
   createBrandSchema,
   CreateBrandInput,
 } from '@/lib/validation/brands/brand-schema';
+import { toast } from 'sonner';
 
 const AddNewBrand = () => {
   const [isPending, startTransition] = useTransition();
@@ -72,6 +73,7 @@ const AddNewBrand = () => {
         throw new Error('Baj van! : ' + result.error);
         // return;
       }
+      toast.success(`Producatorul ${data.name} salvat`);
       reset();
       setImage(null);
       setPreview(null);

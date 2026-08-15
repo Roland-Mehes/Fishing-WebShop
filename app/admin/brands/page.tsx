@@ -14,7 +14,7 @@ type BrandsProps = {
   }>;
 };
 
-const Brands = async ({ searchParams }: BrandsProps) => {
+const BrandsPage = async ({ searchParams }: BrandsProps) => {
   const params = await searchParams;
 
   const search = params.search?.trim();
@@ -50,4 +50,4 @@ const Brands = async ({ searchParams }: BrandsProps) => {
   );
 };
 
-export default Brands;
+export default BrandsPage;

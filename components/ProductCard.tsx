@@ -6,19 +6,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import type { ShopProductListItem } from '@/db/queries/products/shop';
+import { getImageUrl } from '@/lib/storage/get-image';
 
 type ProductCardProps = {
   product: ShopProductListItem;
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const imageUrl = getImageUrl(product.imageUrl);
+
   return (
     <Card className="w-full max-w-sm overflow-hidden pt-0 group transition-all duration-300 hover:border-primary/40 hover:shadow-lg">
       {/* IMAGE WRAPPER */}
       <Link href={`/products/${product.slug}`}>
         <div className="relative overflow-hidden">
           <Image
-            src={'/'}
+            src={imageUrl || '/placeholder.png'}
             alt={product.name}
             width={400}
             height={300}

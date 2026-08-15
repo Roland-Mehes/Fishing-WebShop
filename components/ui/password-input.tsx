@@ -21,6 +21,7 @@ export function PasswordInput({ className, ...props }: PasswordInputProps) {
       />
 
       <button
+        type="button"
         onMouseDown={(e) => e.preventDefault()}
         onClick={() => setShow((value) => !value)}
         aria-label={show ? 'Hide password' : 'Show password'}
