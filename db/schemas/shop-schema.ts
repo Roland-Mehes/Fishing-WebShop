@@ -165,47 +165,55 @@ export const productImages = pgTable('product_images', {
    PRODUCT VARIANTS
 ========================= */
 // ide jonnek majd az anyagok , pl monofil , carbon , szinek , gyartok
-export const productVariants = pgTable('product_variants', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const productVariants = pgTable(
+  'product_variants',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  productId: uuid('product_id')
-    .references(() => products.id, {
-      onDelete: 'cascade',
+    productId: uuid('product_id')
+      .references(() => products.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+
+    sku: varchar('sku', {
+      length: 100,
     })
-    .notNull(),
+      .unique()
+      .notNull(),
 
-  sku: varchar('sku', {
-    length: 100,
-  })
-    .unique()
-    .notNull(),
+    ean: varchar('ean', {
+      length: 50,
+    }),
 
-  ean: varchar('ean', {
-    length: 50,
-  }),
+    variantName: varchar('variant_name', {
+      length: 255,
+    }).notNull(),
 
-  variantName: varchar('variant_name', {
-    length: 255,
-  }).notNull(),
+    price: numeric('price', {
+      precision: 10,
+      scale: 2,
+      mode: 'number',
+    }).notNull(),
 
-  price: numeric('price', {
-    precision: 10,
-    scale: 2,
-    mode: 'number',
-  }).notNull(),
+    stock: integer('stock').default(0).notNull(),
 
-  stock: integer('stock').default(0).notNull(),
+    reservedStock: integer('reserved_stock').default(0).notNull(),
 
-  reservedStock: integer('reserved_stock').default(0).notNull(),
+    active: boolean('active').default(true).notNull(),
 
-  active: boolean('active').default(true).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
 
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-
-  isDefault: boolean('is_default').default(false).notNull(),
-});
+    isDefault: boolean('is_default').default(false).notNull(),
+  },
+  (table) => [
+    uniqueIndex('product_variants_one_default_per_product')
+      .on(table.productId)
+      .where(sql`${table.isDefault}=true`),
+  ],
+);
 
 //  Ide jonnek majd a bot hosszak , horog meret , zsinor vastagsag
 export const productVariantAttributes = pgTable(
