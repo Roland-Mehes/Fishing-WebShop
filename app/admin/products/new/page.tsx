@@ -1,4 +1,4 @@
-import ProductForm from '../_components/ProductForm';
+import AddNewProductForm from '../_components/AddNewProductForm';
 
 import { getCategoriesSelectOptions } from '@/db/queries/categories/list';
 
@@ -11,12 +11,12 @@ const NewProductPage = async () => {
   return (
     <>
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold">Add Product</h1>
+        <h1 className="text-2xl font-semibold">Adauga Produs</h1>
 
-        <p className="text-muted-foreground">Create a new product</p>
+        <p className="text-muted-foreground">Creeaza un produs nou</p>
       </div>
 
-      <ProductForm brands={brands} categories={categories} />
+      <AddNewProductForm brands={brands} categories={categories} />
     </>
   );
 };

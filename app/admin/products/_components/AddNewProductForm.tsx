@@ -1,6 +1,6 @@
 'use client';
 
-import { createProductAction } from '../actions/createProductAction';
+import { createProductAction } from '@/actions/products/create-product-action';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,7 +12,10 @@ type ProductFormProps = {
   categories: SelectOption[];
 };
 
-export default function ProductForm({ brands, categories }: ProductFormProps) {
+export default function AddNewProductForm({
+  brands,
+  categories,
+}: ProductFormProps) {
   return (
     <form action={createProductAction}>
       <div className="space-y-6">
@@ -21,20 +24,20 @@ export default function ProductForm({ brands, categories }: ProductFormProps) {
             <h2 className="font-semibold">Product Information</h2>
 
             <div>
-              <label>Name</label>
+              <label>Nume</label>
 
               <Input name="name" required />
             </div>
 
             <div>
-              <label>Brand</label>
+              <label>Producator</label>
 
               <select
                 name="brandId"
                 required
                 className="w-full rounded-md border px-3 py-2 bg-muted"
               >
-                <option value="">Select Brand</option>
+                <option value="">Selecteaza Producator</option>
 
                 {brands.map((brand) => (
                   <option key={brand.value} value={brand.value}>
@@ -45,14 +48,14 @@ export default function ProductForm({ brands, categories }: ProductFormProps) {
             </div>
 
             <div>
-              <label>Category</label>
+              <label>Categorie</label>
 
               <select
                 name="categoryId"
                 required
-                className="w-full rounded-md border px-3 py-2"
+                className="w-full rounded-md border px-3 py-2 bg-muted"
               >
-                <option value="">Select Category</option>
+                <option value="">Selecteaza Categoria</option>
 
                 {categories.map((category) => (
                   <option key={category.value} value={category.value}>
@@ -81,13 +84,13 @@ export default function ProductForm({ brands, categories }: ProductFormProps) {
             </div>
 
             <div>
-              <label>Price</label>
+              <label>Pret (RON)</label>
 
               <Input type="number" step="0.01" name="price" required />
             </div>
 
             <div>
-              <label>Stock</label>
+              <label>Stoc</label>
 
               <Input type="number" name="stock" required />
             </div>
