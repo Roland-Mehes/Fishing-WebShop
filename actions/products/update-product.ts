@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { updateProduct } from '@/db/mutations/products/update-product';
+import { updateProduct } from '@/db/mutations/products/update';
 
 import { updateProductSchema } from '@/lib/validation/products/update-product-schema';
 
