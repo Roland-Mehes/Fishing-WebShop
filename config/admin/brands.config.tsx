@@ -2,6 +2,7 @@ import { BrandListItem } from '@/db/queries/brands/list';
 import { getImageUrl } from '@/lib/storage/get-image';
 import Image from 'next/image';
 import { BrandActions } from '../../app/admin/brands/_components/brand-actions';
+import { Badge } from '@/components/ui/badge';
 
 export const brandColumns = [
   {
@@ -28,19 +29,30 @@ export const brandColumns = [
   },
   {
     key: 'brand',
-    header: 'Brand',
+    header: 'Producator',
     render: (brand: BrandListItem) => brand.name,
   },
 
   {
     key: 'products',
-    header: 'Products',
+    header: 'Numar Produse',
     render: (brand: BrandListItem) => brand.productCount,
   },
 
   {
+    key: 'status',
+    header: 'Status',
+    render: (brand: BrandListItem) => {
+      if (brand.deletedAt) {
+        return <Badge variant="secondary">Șters</Badge>;
+      }
+      return <Badge>Activ</Badge>;
+    },
+  },
+
+  {
     key: 'actions',
-    header: 'Actions',
+    header: 'Actiuni',
     render: (brand: BrandListItem) => <BrandActions brandId={brand.id} />,
   },
 ];

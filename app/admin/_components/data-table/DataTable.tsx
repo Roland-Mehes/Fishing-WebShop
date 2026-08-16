@@ -13,9 +13,15 @@ type DataTableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
   getRowId: (row: T) => string;
+  getRowClassName?: (row: T) => string | undefined;
 };
 
-export function DataTable<T>({ data, columns, getRowId }: DataTableProps<T>) {
+export function DataTable<T>({
+  data,
+  columns,
+  getRowId,
+  getRowClassName,
+}: DataTableProps<T>) {
   return (
     <Table className="min-w-full">
       <TableHeader>
@@ -28,7 +34,12 @@ export function DataTable<T>({ data, columns, getRowId }: DataTableProps<T>) {
 
       <TableBody>
         {data.map((row) => (
-          <DataTableRow key={getRowId(row)} row={row} columns={columns} />
+          <DataTableRow
+            key={getRowId(row)}
+            row={row}
+            columns={columns}
+            className={getRowClassName?.(row)}
+          />
         ))}
       </TableBody>
     </Table>

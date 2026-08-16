@@ -1,15 +1,13 @@
-import { getProductForEdit } from '@/db/queries/products/details';
-import ProductForm from '../../_components/AddNewProductForm';
-
-type ProductEditProps = {
-  params: Promise<{ id: string }>;
+type ProductEditPageProps = {
+  params: Promise<{
+    productId: string;
+  }>;
 };
 
-const ProductEdit = async ({ params }: ProductEditProps) => {
-  const { id } = await params;
-  const product = await getProductForEdit(id);
+const ProductEditPage = async ({ params }: ProductEditPageProps) => {
+  const { productId } = await params;
 
-  return <div>{product?.brand.name}</div>;
+  return <div>{productId}</div>;
 };
 
-export default ProductEdit;
+export default ProductEditPage;

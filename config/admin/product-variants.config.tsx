@@ -2,12 +2,17 @@ import type { TableColumn } from '@/app/admin/_components/data-table/types';
 import VariantActions from '@/app/admin/products/_components/VariantActions';
 import type { VariantListItems } from '@/db/queries/products/variants';
 import { formatCurrency } from '@/lib/formatters/currency';
+import { Badge } from '@/components/ui/badge';
 
 export const VariantColumns = [
   {
     key: 'variatie',
     header: 'Variatie',
-    render: (variant: VariantListItems) => <div>{variant.variantName}</div>,
+    render: (variant: VariantListItems) => (
+      <div className={variant.deletedAt ? 'text-muted-foreground' : undefined}>
+        {variant.variantName}
+      </div>
+    ),
   },
 
   {
@@ -41,8 +46,18 @@ export const VariantColumns = [
 
   {
     key: 'active',
-    header: 'Active',
-    render: (variant) => (variant.active ? 'Activ' : 'Inactiv'),
+    header: 'Status',
+    render: (variant) => {
+      if (variant.deletedAt) {
+        return <Badge variant="secondary">Șters</Badge>;
+      }
+
+      if (variant.active) {
+        return <Badge>Activ</Badge>;
+      }
+
+      return <Badge variant="outline">Inactiv</Badge>;
+    },
   },
 
   {
@@ -53,6 +68,7 @@ export const VariantColumns = [
         productId={variant.productId}
         variantId={variant.variantId}
         active={variant.active}
+        deletedAt={variant.deletedAt}
       />
     ),
   },

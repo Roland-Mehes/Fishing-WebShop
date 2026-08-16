@@ -1,8 +1,5 @@
 import { Button } from '@/components/ui/button';
-import {
-  getProductBrands,
-  getBrandSelectOptions,
-} from '@/db/queries/brands/list';
+import { getBrandSelectOptions } from '@/db/queries/brands/list';
 import { getCategoriesSelectOptions } from '@/db/queries/categories/list';
 import { getProductsCount } from '@/db/queries/products/list';
 import { PRODUCT_STATUS_OPTIONS } from '@/config/admin/products.config';
@@ -12,7 +9,7 @@ import SelectFilter from '@/app/admin/_components/filters/SelectFilter';
 import ProductTable from '@/app/admin/products/_components/ProductTable';
 import Pagination from '@/app/admin/_components/Pagination';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import SearchInput from '@/app/admin/products/_components/SearchInput';
+import SearchInput from '@/app/admin/_components/filters/SearchInput';
 
 type ProductsProps = {
   searchParams: Promise<{
@@ -24,7 +21,7 @@ type ProductsProps = {
   }>;
 };
 
-const Products = async ({ searchParams }: ProductsProps) => {
+const ProductsPage = async ({ searchParams }: ProductsProps) => {
   const params = await searchParams;
 
   const categoryId = params.category;
@@ -126,4 +123,4 @@ const Products = async ({ searchParams }: ProductsProps) => {
   );
 };
 
-export default Products;
+export default ProductsPage;

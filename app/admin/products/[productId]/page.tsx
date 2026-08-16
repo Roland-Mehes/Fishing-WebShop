@@ -8,7 +8,7 @@ type PageProps = {
   params: Promise<{ productId: string }>;
 };
 
-const ProductVariants = async ({ params }: PageProps) => {
+const ProductVariantsPage = async ({ params }: PageProps) => {
   const { productId } = await params;
 
   const variants = await getProductVariants(productId);
@@ -20,9 +20,12 @@ const ProductVariants = async ({ params }: PageProps) => {
         data={variants}
         columns={VariantColumns}
         getRowId={(variant) => variant.variantId}
+        getRowClassName={(variant) =>
+          variant.deletedAt ? 'bg-muted/40 opacity-50' : undefined
+        }
       />
     </div>
   );
 };
 
-export default ProductVariants;
+export default ProductVariantsPage;
