@@ -1,8 +1,6 @@
 'use server';
 
-import { db } from '@/db';
-import { productVariants } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { restoreVariantMutation } from '@/db/mutations/products/variants/restore';
 import { revalidatePath } from 'next/cache';
 
 export const restoreProductVariant = async (variantId: string) => {
@@ -11,10 +9,7 @@ export const restoreProductVariant = async (variantId: string) => {
   }
 
   try {
-    await db
-      .update(productVariants)
-      .set({ deletedAt: null, active: true, updatedAt: new Date() })
-      .where(eq(productVariants.id, variantId));
+    await restoreVariantMutation(variantId);
 
     revalidatePath('/admin/products');
     return { success: true };

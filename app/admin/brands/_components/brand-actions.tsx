@@ -1,7 +1,7 @@
 'use client';
 
 import { useTransition } from 'react';
-import { deleteBrand } from '@/db/mutations/brands/delete';
+import { deleteBrandMutation } from '@/db/mutations/brands/delete';
 
 import {
   DropdownMenu,
@@ -32,7 +32,7 @@ export function BrandActions({ brandId, deletedAt }: BrandActionsProps) {
 
     startTransition(async () => {
       try {
-        await deleteBrand(brandId);
+        await deleteBrandMutation(brandId);
         toast.success('Producator Sters');
       } catch (e) {
         console.error(e);
