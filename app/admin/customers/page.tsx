@@ -1,7 +1,7 @@
 import { getCustomers } from '@/db/queries/customers';
 import { customerColumns } from '../../../config/admin/customers.config';
 import { DataTable } from '../_components/data-table/DataTable';
-import SearchInput from '../products/_components/SearchInput';
+import SearchInput from '../_components/filters/SearchInput';
 
 type CustomerTableProps = {
   searchParams: Promise<{

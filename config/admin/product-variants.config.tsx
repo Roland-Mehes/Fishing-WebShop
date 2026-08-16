@@ -2,18 +2,33 @@ import type { TableColumn } from '@/app/admin/_components/data-table/types';
 import VariantActions from '@/app/admin/products/_components/VariantActions';
 import type { VariantListItems } from '@/db/queries/products/variants';
 import { formatCurrency } from '@/lib/formatters/currency';
+import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
 export const VariantColumns = [
   {
     key: 'variatie',
     header: 'Variatie',
-    render: (variant: VariantListItems) => <div>{variant.variantName}</div>,
+    render: (variant: VariantListItems) => (
+      <div className={variant.deletedAt ? 'text-muted-foreground' : undefined}>
+        {variant.variantName}
+      </div>
+    ),
   },
 
   {
     key: 'sku',
     header: 'SKU',
-    render: (variant) => variant.sku,
+    render: (variant) => (
+      <Link
+        href={`/admin/products/${variant.productId}/variants/${variant.variantId}`}
+        className={`variant.deletedAt
+          ? 'text-muted-foreground'
+          : 'font-medium hover:underline'`}
+      >
+        {variant.sku}
+      </Link>
+    ),
   },
 
   {
@@ -41,8 +56,18 @@ export const VariantColumns = [
 
   {
     key: 'active',
-    header: 'Active',
-    render: (variant) => (variant.active ? 'Activ' : 'Inactiv'),
+    header: 'Status',
+    render: (variant) => {
+      if (variant.deletedAt) {
+        return <Badge variant="secondary">Șters</Badge>;
+      }
+
+      if (variant.active) {
+        return <Badge>Activ</Badge>;
+      }
+
+      return <Badge variant="outline">Inactiv</Badge>;
+    },
   },
 
   {
@@ -53,6 +78,7 @@ export const VariantColumns = [
         productId={variant.productId}
         variantId={variant.variantId}
         active={variant.active}
+        deletedAt={variant.deletedAt}
       />
     ),
   },

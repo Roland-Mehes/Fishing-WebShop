@@ -1,5 +1,5 @@
 import { products, productVariants } from '@/db/schema';
-import { and, eq, ilike, or, type SQL } from 'drizzle-orm';
+import { and, eq, ilike, or, sql, type SQL } from 'drizzle-orm';
 
 export type ProductListFilters = {
   categoryId?: string;
@@ -33,13 +33,21 @@ export function buildProductFilters({
   }
 
   if (search?.trim()) {
-    const searchPattern = `%${search}%`;
+    const searchPattern = `%${search.trim()}%`;
 
     filters.push(
       or(
         ilike(products.name, searchPattern),
-        ilike(productVariants.sku, searchPattern),
-        ilike(productVariants.ean, searchPattern),
+
+        sql`exists (
+          select 1
+          from ${productVariants}
+          where ${productVariants.productId} = ${products.id}
+            and (
+              ${productVariants.sku} ilike ${searchPattern}
+              or ${productVariants.ean} ilike ${searchPattern}
+            )
+        )`,
       )!,
     );
   }

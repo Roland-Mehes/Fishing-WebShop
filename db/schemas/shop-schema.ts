@@ -10,10 +10,10 @@ import {
   pgEnum,
   AnyPgColumn,
   unique,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
 import { user } from './auth-schema';
-import { uniqueIndex } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 /* =========================
@@ -59,81 +59,93 @@ export const brands = pgTable(
    CATEGORIES
 ========================= */
 
-export const categories = pgTable('categories', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const categories = pgTable(
+  'categories',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  name: varchar('name', {
-    length: 255,
-  }).notNull(),
+    name: varchar('name', {
+      length: 255,
+    }).notNull(),
 
-  slug: varchar('slug', {
-    length: 255,
-  })
-    .unique()
-    .notNull(),
+    slug: varchar('slug', {
+      length: 255,
+    }).notNull(),
 
-  parentId: uuid('parent_id').references((): AnyPgColumn => categories.id, {
-    onDelete: 'set null',
-  }),
+    parentId: uuid('parent_id').references((): AnyPgColumn => categories.id, {
+      onDelete: 'set null',
+    }),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-});
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
+  },
+  (table) => [
+    uniqueIndex('categories_slug_active_unique')
+      .on(table.slug)
+      .where(sql`${table.deletedAt} IS NULL`),
+  ],
+);
 
 /* =========================
    PRODUCTS
 ========================= */
 
-export const products = pgTable('products', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const products = pgTable(
+  'products',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  brandId: uuid('brand_id')
-    .references(() => brands.id, {
-      onDelete: 'restrict',
+    brandId: uuid('brand_id')
+      .references(() => brands.id, {
+        onDelete: 'restrict',
+      })
+      .notNull(),
+
+    categoryId: uuid('category_id')
+      .references(() => categories.id, {
+        onDelete: 'restrict',
+      })
+      .notNull(),
+
+    name: varchar('name', {
+      length: 255,
+    }).notNull(),
+
+    seoTitle: varchar('seo_title', { length: 255 }),
+    seoDescription: text('seo_description'),
+
+    slug: varchar('slug', {
+      length: 255,
+    }).notNull(),
+
+    shortDescription: text('short_description'),
+
+    description: text('description'),
+
+    ratingAverage: numeric('rating_average', {
+      precision: 3,
+      scale: 2,
+      mode: 'number',
     })
-    .notNull(),
+      .default(0)
+      .notNull(),
 
-  categoryId: uuid('category_id')
-    .references(() => categories.id, {
-      onDelete: 'restrict',
-    })
-    .notNull(),
+    ratingCount: integer('rating_count').default(0).notNull(),
 
-  name: varchar('name', {
-    length: 255,
-  }).notNull(),
+    active: boolean('active').default(true).notNull(),
 
-  seoTitle: varchar('seo_title', { length: 255 }),
-  seoDescription: text('seo_description'),
+    deletedAt: timestamp('deleted_at'),
 
-  slug: varchar('slug', {
-    length: 255,
-  })
-    .unique()
-    .notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
 
-  shortDescription: text('short_description'),
-
-  description: text('description'),
-
-  ratingAverage: numeric('rating_average', {
-    precision: 3,
-    scale: 2,
-    mode: 'number',
-  })
-    .default(0)
-    .notNull(),
-
-  ratingCount: integer('rating_count').default(0).notNull(),
-
-  active: boolean('active').default(true).notNull(),
-
-  deletedAt: timestamp('deleted_at'),
-
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-
-  updatedAt: timestamp('updated_at').defaultNow().notNull(), // new Date()
-});
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex('products_slug_active_unique')
+      .on(table.slug)
+      .where(sql`${table.deletedAt} IS NULL`),
+  ],
+);
 
 /* =========================
    PRODUCT IMAGES
@@ -178,9 +190,7 @@ export const productVariants = pgTable(
 
     sku: varchar('sku', {
       length: 100,
-    })
-      .unique()
-      .notNull(),
+    }).notNull(),
 
     ean: varchar('ean', {
       length: 50,
@@ -206,12 +216,19 @@ export const productVariants = pgTable(
 
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 
+    deletedAt: timestamp('deleted_at'),
+
+    sortOrder: integer('sort_order').default(0).notNull(),
     isDefault: boolean('is_default').default(false).notNull(),
   },
   (table) => [
+    uniqueIndex('product_variants_sku_active_unique')
+      .on(table.sku)
+      .where(sql`${table.deletedAt} IS NULL`),
+
     uniqueIndex('product_variants_one_default_per_product')
       .on(table.productId)
-      .where(sql`${table.isDefault}=true`),
+      .where(sql`${table.isDefault}=true AND ${table.deletedAt} IS NULL`),
   ],
 );
 
@@ -301,26 +318,32 @@ export const reviews = pgTable('reviews', {
    Product attributes definition
 ========================= */
 
-export const attributeDefinitions = pgTable('attribute_definitions', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const attributeDefinitions = pgTable(
+  'attribute_definitions',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  name: varchar('name', {
-    length: 255,
-  }).notNull(),
+    name: varchar('name', {
+      length: 255,
+    }).notNull(),
 
-  slug: varchar('slug', {
-    length: 255,
-  })
-    .unique()
-    .notNull(),
+    slug: varchar('slug', {
+      length: 255,
+    }).notNull(),
 
-  unit: varchar('unit', {
-    length: 50,
-  }),
+    unit: varchar('unit', {
+      length: 50,
+    }),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-});
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
+  },
+  (table) => [
+    uniqueIndex('attribute_definitions_slug_active_unique')
+      .on(table.slug)
+      .where(sql`${table.deletedAt} IS NULL`),
+  ],
+);
 
 /* =========================
    Product attributes

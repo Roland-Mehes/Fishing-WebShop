@@ -1,8 +1,10 @@
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import SearchInput from '../products/_components/SearchInput';
+import SearchInput from '@/app/admin/_components/filters/SearchInput';
 import { Button } from '@/components/ui/button';
 import BrandTable from './_components/BrandTable';
 import Link from 'next/link';
+
+import { getBrandsStats } from '@/db/queries/brands/list';
 
 type BrandsProps = {
   searchParams: Promise<{
@@ -19,6 +21,8 @@ const BrandsPage = async ({ searchParams }: BrandsProps) => {
 
   const search = params.search?.trim();
 
+  const stats = await getBrandsStats();
+
   return (
     <div>
       <Card className="my-6">
@@ -27,7 +31,10 @@ const BrandsPage = async ({ searchParams }: BrandsProps) => {
             <SearchInput placeholder="Search brand" />
 
             <div className="flex justify-between items-center gap-2">
-              <div>Toate: 127 Active: 119 Inactive: 8</div>
+              <div>
+                Toate: {stats.total} Active: {stats.active} Sterse:{' '}
+                {stats.deleted}
+              </div>
               <div>
                 <Link href="./brands/new/">
                   <Button>Add New</Button>

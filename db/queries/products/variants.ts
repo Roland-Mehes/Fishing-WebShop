@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { productVariants } from '@/db/schema';
 
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 export async function getProductVariants(productId: string) {
   return db
@@ -16,9 +16,15 @@ export async function getProductVariants(productId: string) {
       reservedStock: productVariants.reservedStock,
       active: productVariants.active,
       isDefault: productVariants.isDefault,
+      deletedAt: productVariants.deletedAt,
+      sortOrder: productVariants.sortOrder,
     })
     .from(productVariants)
-    .where(eq(productVariants.productId, productId));
+    .where(eq(productVariants.productId, productId))
+    .orderBy(
+      sql`${productVariants.deletedAt} IS NOT NULL`,
+      productVariants.variantName,
+    );
 }
 
 export type VariantListItems = Awaited<
@@ -40,6 +46,7 @@ export const getVariantById = async (variantId: string) => {
       reservedStock: productVariants.reservedStock,
       active: productVariants.active,
       isDefault: productVariants.isDefault,
+      sortOrder: productVariants.sortOrder,
     })
     .from(productVariants)
     .where(eq(productVariants.id, variantId));

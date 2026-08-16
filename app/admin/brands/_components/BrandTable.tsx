@@ -10,6 +10,9 @@ export default async function BrandTable({ search }: { search?: string }) {
       data={brands}
       columns={brandColumns}
       getRowId={(brand) => brand.id}
+      getRowClassName={(brand) =>
+        brand.deletedAt ? 'bg-muted/40 opacity-50' : undefined
+      }
     />
   );
 }
