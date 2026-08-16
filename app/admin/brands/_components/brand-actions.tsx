@@ -1,7 +1,6 @@
 'use client';
 
 import { useTransition } from 'react';
-import { deleteBrandMutation } from '@/db/mutations/brands/delete';
 
 import {
   DropdownMenu,
@@ -14,6 +13,8 @@ import { Button } from '@/components/ui/button';
 
 import { EllipsisVertical } from 'lucide-react';
 import { toast } from 'sonner';
+import { restoreBrandAction } from '@/actions/brands/restore-brand-action';
+import { deleteBrandAction } from '@/actions/brands/delete-brand-action';
 
 type BrandActionsProps = {
   brandId: string;
@@ -32,7 +33,7 @@ export function BrandActions({ brandId, deletedAt }: BrandActionsProps) {
 
     startTransition(async () => {
       try {
-        await deleteBrandMutation(brandId);
+        await deleteBrandAction(brandId);
         toast.success('Producator Sters');
       } catch (e) {
         console.error(e);
@@ -41,8 +42,27 @@ export function BrandActions({ brandId, deletedAt }: BrandActionsProps) {
     });
   };
 
-  const handleRestore = () => {
-    toast.success('Restored');
+  const handleRestore = async () => {
+    const confirmed = confirm('Sigur doresti sa restereste acest producator?');
+    if (!confirmed || !deletedAt) {
+      return;
+    }
+
+    startTransition(async () => {
+      try {
+        const result = await restoreBrandAction(brandId);
+
+        if (!result.success) {
+          toast.error(result.error);
+          return;
+        }
+
+        toast.success('Producator restaurat');
+      } catch (e) {
+        console.error(e);
+        toast.error(`Erroare , nu putut restereste producatorul ${brandId} `);
+      }
+    });
   };
 
   return (
