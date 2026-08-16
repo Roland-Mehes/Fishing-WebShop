@@ -42,6 +42,7 @@ export const brands = pgTable(
     logoKey: text(),
 
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at'),
     deletedAt: timestamp('deleted_at'),
   },
   (table) => [
@@ -77,6 +78,7 @@ export const categories = pgTable(
     }),
 
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at'),
     deletedAt: timestamp('deleted_at'),
   },
   (table) => [
