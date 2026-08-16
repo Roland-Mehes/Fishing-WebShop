@@ -15,11 +15,12 @@ import { Button } from '@/components/ui/button';
 import { EllipsisVertical } from 'lucide-react';
 import { toast } from 'sonner';
 
-type Props = {
+type BrandActionsProps = {
   brandId: string;
+  deletedAt: Date | null;
 };
 
-export function BrandActions({ brandId }: Props) {
+export function BrandActions({ brandId, deletedAt }: BrandActionsProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
@@ -40,6 +41,10 @@ export function BrandActions({ brandId }: Props) {
     });
   };
 
+  const handleRestore = () => {
+    toast.success('Restored');
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -49,11 +54,21 @@ export function BrandActions({ brandId }: Props) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        {deletedAt ? (
+          <>
+            <DropdownMenuItem disabled={isPending} onClick={handleRestore}>
+              Restore
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
 
-        <DropdownMenuItem disabled={isPending} onClick={handleDelete}>
-          Delete
-        </DropdownMenuItem>
+            <DropdownMenuItem disabled={isPending} onClick={handleDelete}>
+              Delete
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { productVariants } from '@/db/schema';
 
-import { asc, eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 export async function getProductVariants(productId: string) {
   return db
@@ -21,7 +21,10 @@ export async function getProductVariants(productId: string) {
     })
     .from(productVariants)
     .where(eq(productVariants.productId, productId))
-    .orderBy(asc(productVariants.sortOrder));
+    .orderBy(
+      sql`${productVariants.deletedAt} IS NOT NULL`,
+      productVariants.variantName,
+    );
 }
 
 export type VariantListItems = Awaited<

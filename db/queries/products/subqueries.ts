@@ -1,6 +1,6 @@
 import { db } from '@/db';
 import { productImages, productVariants } from '@/db/schema';
-import { sql, count } from 'drizzle-orm';
+import { sql, count, isNull } from 'drizzle-orm';
 
 export const primaryImageSubquery = db
   .selectDistinctOn([productImages.productId], {
@@ -22,5 +22,6 @@ export const variantsCountSubquery = db
     variantsCount: count(productVariants.id).as('variants_count'),
   })
   .from(productVariants)
+  .where(isNull(productVariants.deletedAt))
   .groupBy(productVariants.productId)
   .as('variants_count_subquery');

@@ -52,7 +52,9 @@ export const brandColumns = [
 
   {
     key: 'actions',
-    header: 'Actiuni',
-    render: (brand: BrandListItem) => <BrandActions brandId={brand.id} />,
+    header: '',
+    render: (brand: BrandListItem) => (
+      <BrandActions deletedAt={brand.deletedAt} brandId={brand.id} />
+    ),
   },
 ];

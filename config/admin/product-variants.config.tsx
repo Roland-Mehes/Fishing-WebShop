@@ -3,6 +3,7 @@ import VariantActions from '@/app/admin/products/_components/VariantActions';
 import type { VariantListItems } from '@/db/queries/products/variants';
 import { formatCurrency } from '@/lib/formatters/currency';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
 export const VariantColumns = [
   {
@@ -18,7 +19,16 @@ export const VariantColumns = [
   {
     key: 'sku',
     header: 'SKU',
-    render: (variant) => variant.sku,
+    render: (variant) => (
+      <Link
+        href={`/admin/products/${variant.productId}/variants/${variant.variantId}`}
+        className={`variant.deletedAt
+          ? 'text-muted-foreground'
+          : 'font-medium hover:underline'`}
+      >
+        {variant.sku}
+      </Link>
+    ),
   },
 
   {
