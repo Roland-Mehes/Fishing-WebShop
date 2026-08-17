@@ -25,6 +25,14 @@ const BrandsPage = async ({ searchParams }: BrandsProps) => {
 
   return (
     <div>
+      <div>
+        <h1 className="text-2xl font-semibold">Producatoare</h1>
+
+        <p className="text-muted-foreground">
+          Aici poti gestiona producatorii de produse. Poti adauga, sterge sau
+          modifica producatorii existenti.
+        </p>
+      </div>
       <Card className="my-6">
         <CardContent>
           <div className="space-y-3">
@@ -44,7 +52,6 @@ const BrandsPage = async ({ searchParams }: BrandsProps) => {
           </div>
         </CardContent>
       </Card>
-
       <Card>
         <CardContent>
           <BrandTable search={search} />

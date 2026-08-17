@@ -57,9 +57,11 @@ const ProductsPage = async ({ searchParams }: ProductsProps) => {
 
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Products</h1>
+          <h1 className="text-2xl font-semibold">Produse</h1>
 
-          <p className="text-muted-foreground">Manage your store products</p>
+          <p className="text-muted-foreground">
+            Aici poti visualiza și modifica produsele din catalogul selectat.
+          </p>
         </div>
 
         {/* Buttons */}
@@ -67,7 +69,7 @@ const ProductsPage = async ({ searchParams }: ProductsProps) => {
           <Button variant="outline">Export</Button>
 
           <Button asChild>
-            <Link href="/admin/products/new">Add Product</Link>
+            <Link href="/admin/products/new">Adauga Produs Nou</Link>
           </Button>
         </div>
       </div>
@@ -77,18 +79,18 @@ const ProductsPage = async ({ searchParams }: ProductsProps) => {
       <Card className="my-6">
         <CardContent>
           <div className="space-y-3">
-            <SearchInput placeholder="Search by Name, SKU , EAN" />
+            <SearchInput placeholder="Cauta produse dupa Nume, SKU , EAN" />
 
             <div className="flex flex-wrap gap-2">
               {/* Filter By Name */}
               <SelectFilter
-                placeholder="Brand"
+                placeholder="Producator"
                 paramName="brand"
                 options={brandOptions}
               />
               {/*  Filter by Category*/}
               <SelectFilter
-                placeholder="Category"
+                placeholder="Categorie"
                 paramName="category"
                 options={categoryOptions}
               />

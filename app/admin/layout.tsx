@@ -16,10 +16,10 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex theme-admin bg-background">
+    <div className="flex min-h-screen theme-admin bg-background">
       <Sidebar />
 
-      <div className="flex flex-1 flex-col min-w-0">
+      <div className="flex flex-1 flex-col min-w-0 lg:ml-64">
         <AdminHeader />
 
         <main className="flex-1 min-h-screen overflow-auto p-1 lg:p-6">
