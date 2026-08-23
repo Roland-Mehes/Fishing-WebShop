@@ -16,7 +16,7 @@ const Footer = () => {
             <div className="mt-4 space-y-1 text-sm text-muted-foreground">
               <p>📍 Oradea, Bihor</p>
               <p>📞 +40 7xx xxx xxx</p>
-              <p>✉️ contact@garnaizsolt.ro</p>
+              {/* <p>✉️ contact@~X_X~.ro</p> */}
             </div>
           </div>
 
@@ -28,7 +28,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:justify-between">
-          © 2026 Garnai Zsolt Fishing Shop
+          © 2026 Fishing Shop
         </div>
       </div>
     </footer>

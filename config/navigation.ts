@@ -1,9 +1,9 @@
 export const NAV_ITEMS = [
   { text: 'Home', link: '/' },
   { text: 'Produse', link: '/products' },
-  { text: 'Producatori', link: '/markak' },
-  { text: 'Reduceri', link: '/akciok' },
-  { text: 'Noutati', link: '/ujdonsagok' },
+  { text: 'Producatori', link: '/producatori' },
+  { text: 'Reduceri', link: '/promotii' },
+  { text: 'Noutati', link: '/noutati' },
   { text: 'Contact', link: '/contact' },
 ];
 

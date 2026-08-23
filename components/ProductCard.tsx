@@ -1,12 +1,12 @@
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShoppingCart, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import type { ShopProductListItem } from '@/db/queries/products/shop';
 import { getImageUrl } from '@/lib/storage/get-image';
+import { AddToCartButton } from '@/app/(store)/_components/AddToCartButton';
 
 type ProductCardProps = {
   product: ShopProductListItem;
@@ -82,10 +82,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Add to Cart */}
       <CardFooter>
-        <Button className="w-full group/button">
-          <ShoppingCart className="mr-2 h-4 w-4 group-hover/button:translate-x-0.5 transition" />
-          Add to cart
-        </Button>
+        <AddToCartButton
+          variantId={product.variantId}
+          productId={product.id}
+          name={product.name}
+          slug={product.slug}
+          sku={product.sku}
+          price={product.price}
+          image={imageUrl || '/placeholder.png'}
+        />
       </CardFooter>
     </Card>
   );
