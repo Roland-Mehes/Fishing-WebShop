@@ -30,14 +30,14 @@ const UserDropdown = async () => {
                 href="/login"
                 className="px-3 py-2 rounded-md transition-colors hover:bg-muted hover:text-foreground"
               >
-                Bejelentkezés
+                Autentificare
               </Link>
 
               <Link
                 href="/signup"
                 className="px-3 py-2 rounded-md transition-colors hover:bg-muted hover:text-foreground"
               >
-                Regisztráció
+                Inregistrare
               </Link>
             </>
           ) : (
@@ -53,7 +53,7 @@ const UserDropdown = async () => {
                 href="/orders"
                 className="px-3 py-2 rounded-md transition-colors hover:bg-muted hover:text-foreground"
               >
-                Rendeléseim
+                Comenzile mele
               </Link>
               <LogoutButton></LogoutButton>
             </>

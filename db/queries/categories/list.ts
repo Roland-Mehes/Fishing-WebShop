@@ -6,5 +6,6 @@ export async function getCategoriesSelectOptions() {
   return categoriesList.map((category) => ({
     label: category.name,
     value: category.id,
+    image: category.imageKey,
   }));
 }

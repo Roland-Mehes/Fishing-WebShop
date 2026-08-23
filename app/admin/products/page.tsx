@@ -76,7 +76,7 @@ const ProductsPage = async ({ searchParams }: ProductsProps) => {
 
       {/* <ProductStats /> */}
 
-      <Card className="my-6">
+      <Card className="my-6 ">
         <CardContent>
           <div className="space-y-3">
             <SearchInput placeholder="Cauta produse dupa Nume, SKU , EAN" />
@@ -107,7 +107,7 @@ const ProductsPage = async ({ searchParams }: ProductsProps) => {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="">
         <CardContent>
           <ProductTable
             categoryId={categoryId}
