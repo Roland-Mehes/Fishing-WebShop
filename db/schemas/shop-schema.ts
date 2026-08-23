@@ -73,6 +73,8 @@ export const categories = pgTable(
       length: 255,
     }).notNull(),
 
+    imageKey: text('image_key'),
+
     parentId: uuid('parent_id').references((): AnyPgColumn => categories.id, {
       onDelete: 'set null',
     }),

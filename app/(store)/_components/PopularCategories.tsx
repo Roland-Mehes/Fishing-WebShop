@@ -6,7 +6,7 @@ const PopularCategories = () => {
     {
       name: 'Lansete',
       slug: 'lansete',
-      img: '/placeholder.png',
+      img: '/lansete.webp',
     },
     {
       name: 'Mulinete',

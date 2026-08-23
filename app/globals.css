@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /* =========================
-   BASE TOKENS (LIGHT = fallback)
-   ========================= */
+     BASE TOKENS (LIGHT = fallback)
+  ========================= */
 :root {
   --radius: 0.75rem;
 
@@ -23,7 +23,7 @@
   --destructive-foreground: #ffffff;
 
   /* =========================
-STORE THEME
+     STORE THEME
 ========================= */
 
   --background: #071a1f;
@@ -44,10 +44,10 @@ STORE THEME
   --muted: #0b1f24;
   --muted-foreground: #9ca3af;
 
-  --border: rgba(120, 200, 190, 0.1);
-  --input: rgba(255, 255, 255, 0.12);
+  --border: #78c8be1a;
+  --input: #ffffff1f;
 
-  --ring: rgba(244, 162, 97, 0.35);
+  --ring: #f4a26159;
 }
 
 /* =========================
@@ -55,38 +55,47 @@ ADMIN THEME
 ========================= */
 
 .theme-admin {
-  /* base */
-  --background: #0a0a0b;
-  --foreground: #f4f4f5;
+  --background: #09090b;
+  --foreground: #fafafa;
 
-  /* surfaces */
   --card: #111113;
-  --popover: #111113;
+  --card-foreground: #fafafa;
+  --card-gradient:
+    radial-gradient(
+      circle at top left,
+      rgba(204, 153, 102, 0.045),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #141416 0%, #111113 55%, #0f0f11 100%);
 
-  --card-foreground: #f4f4f5;
-  --popover-foreground: #f4f4f5;
+  --popover: #141416;
+  --popover-foreground: #fafafa;
 
-  --primary: #f2f2f2;
-  --primary-foreground: #000;
+  --primary: #f4f4f5;
+  --primary-foreground: #09090b;
 
-  /* secondary surfaces */
   --secondary: #18181b;
+  --secondary-foreground: #e4e4e7;
 
-  /* muted */
-  --muted: #1c1c1f;
+  --muted: #151518;
   --muted-foreground: #a1a1aa;
 
-  /* borders = subtle separation */
-  --border: rgba(255, 255, 255, 0.06);
-  --input: rgba(255, 255, 255, 0.08);
+  --accent: #cc9966;
+  --accent-foreground: #09090b;
 
-  /* focus ring */
-  --ring: rgba(124, 58, 237, 0.35);
+  --border: #ffffff12;
+  --input: #ffffff17;
 
-  /* status colors (subtle, not neon) */
+  --ring: #cc996659;
+
   --success: #22c55e;
+  --success-foreground: #ffffff;
+
   --sale: #ef4444;
+  --sale-foreground: #ffffff;
+
   --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
 
   .table-scroll::-webkit-scrollbar {
     height: 8px;
@@ -97,8 +106,12 @@ ADMIN THEME
   }
 
   .table-scroll::-webkit-scrollbar-thumb {
-    background: var(--primary);
+    background: #3f3f46;
     border-radius: 9999px;
+
+    &:hover {
+      background: #52525b;
+    }
   }
 }
 
@@ -123,6 +136,9 @@ ADMIN THEME
 
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 
   --color-sale: var(--sale);
   --color-sale-foreground: var(--sale-foreground);
@@ -186,18 +202,14 @@ Instrument Sans */
     background: var(--background);
   }
 
-  /* * {
-    outline: 1px solid red;
-  } */
-
   ::selection {
     background: var(--primary);
     color: var(--primary-foreground);
   }
 }
 
-/* @layer utilities {
-  .safelist-grid-cols {
-    @apply grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 grid-cols-5 grid-cols-6;
+@layer utilities {
+  .admin-card {
+    background: var(--card-gradient);
   }
-} */
+}
