@@ -75,6 +75,10 @@ export const categories = pgTable(
 
     imageKey: text('image_key'),
 
+    isFeatured: boolean('is_featured').notNull().default(false),
+
+    sortOrder: integer('sort_order').notNull().default(0),
+
     parentId: uuid('parent_id').references((): AnyPgColumn => categories.id, {
       onDelete: 'set null',
     }),

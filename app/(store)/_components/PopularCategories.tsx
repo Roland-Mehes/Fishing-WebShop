@@ -1,70 +1,53 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const PopularCategories = () => {
-  const categories = [
-    {
-      name: 'Lansete',
-      slug: 'lansete',
-      img: '/lansete.webp',
-    },
-    {
-      name: 'Mulinete',
-      slug: 'mulinete',
-      img: '/placeholder.png',
-    },
-    {
-      name: 'Fire',
-      slug: 'fire',
-      img: '/placeholder.png',
-    },
-    {
-      name: 'Momeli',
-      slug: 'momeli',
-      img: '/placeholder.png',
-    },
-    {
-      name: 'Accesorii',
-      slug: 'accesorii',
-      img: '/placeholder.png',
-    },
-    {
-      name: 'Crap',
-      slug: 'crap',
-      img: '/placeholder.png',
-    },
-  ];
+import { getFeaturedCategories } from '@/db/queries/categories/list';
+import { getImageUrl } from '@/lib/storage/get-image';
+
+const PopularCategories = async () => {
+  const categories = await getFeaturedCategories();
 
   return (
-    <div className="max-w-7xl mx-auto py-8">
-      <h2 className="text-3xl font-bold text-center mb-8">
+    <section
+      aria-labelledby="popular-categories-title"
+      className="max-w-7xl mx-auto py-8"
+    >
+      <h2
+        id="popular-categories-title"
+        className="text-3xl font-bold text-center mb-8"
+      >
         Categorii populare
       </h2>
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-        {categories.map((category, index) => (
-          <Link
-            key={index}
-            href={`/shop/${category.name.toLowerCase().replace(' ', '-')}`}
-            className="group block"
-          >
-            <div className="relative overflow-hidden rounded-lg">
-              <Image
-                height={256}
-                width={256}
-                src={category.img}
-                alt={category.name}
-                className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center">
-                <span className="text-white font-semibold text-lg">
-                  {category.name}
-                </span>
+        {categories.map((category) => {
+          const imageUrl = getImageUrl(category.imageKey);
+
+          return (
+            <Link
+              key={category.id}
+              href={`/shop/${category.slug}`}
+              className="group block"
+            >
+              <div className="relative overflow-hidden rounded-lg">
+                <Image
+                  height={512}
+                  width={512}
+                  src={imageUrl || '/placeholder.png'}
+                  alt={category.name}
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 flex items-end justify-center bg-linear-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="mb-5 text-lg font-semibold text-white">
+                    {category.name}
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 };
 
