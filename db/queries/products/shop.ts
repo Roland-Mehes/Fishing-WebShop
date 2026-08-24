@@ -155,7 +155,7 @@ export async function getShopProducts({
        * PRIMARY IMAGE
        */
       imageUrl: sql<string | null>`(
-        select ${productImages.imageUrl}
+        select ${productImages.imageKey}
         from ${productImages}
         where ${productImages.productId} = ${products.id}
           and ${productImages.isPrimary} = true
