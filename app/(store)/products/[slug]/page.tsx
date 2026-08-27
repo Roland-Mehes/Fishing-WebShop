@@ -11,7 +11,7 @@ const ProductPage = async ({
   return (
     <div>
       <p>{currentProduct?.name}</p>
-      <p>{currentProduct?.images[0].imageUrl}</p>
+      <p>{currentProduct?.images[0].imageKey}</p>
       <p>{currentProduct?.description}</p>
       <p>{currentProduct?.ratingAverage}</p>
     </div>
