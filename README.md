@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎣 Fishing WebShop
 
-## Getting Started
+> 🚧 **Under Construction** — This project is currently under active development.
 
-First, run the development server:
+A modern online fishing webshop where users can browse and purchase fishing equipment and accessories.
+
+## 🌐 Live Demo
+
+https://fishing-web-shop-chi.vercel.app
+
+## ✨ Features
+
+* 🛒 Product browsing and shopping cart
+* 🎣 Fishing equipment and accessories
+* 📦 Product variants and stock management
+* 🏷️ Categories and brands
+* 💰 Product discounts
+* ⭐ Product ratings and reviews
+* 👤 User registration and login
+* 🔐 Customer and admin roles
+* ⚙️ Admin panel for managing products and brands
+
+## 🛠️ Technologies
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+* PostgreSQL
+* Drizzle ORM
+* Better Auth
+* Zustand
+* Vercel
+
+## 🚀 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Roland-Mehes/Fishing-WebShop.git
+cd Fishing-WebShop
+```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env.local` file and add your database connection:
+
+```env
+DATABASE_URL="your-database-url"
+BETTER_AUTH_SECRET="your-better-auth-secret"
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_BETTER_AUTH_URL="http://localhost:3000"
+
+R2_TOKEN="your-r2-token"
+R2_ENDPOINT="your-r2-endpoint"
+R2_ACCESS_KEY="your-r2-access-key"
+R2_SECRET_KEY="your-r2-secret-key"
+R2_BUCKET_NAME="your-r2-bucket-name"
+NEXT_PUBLIC_R2_PUBLIC_URL="your-r2-public-url"
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Production
 
-## Learn More
+Build the application:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Start the production server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run start
+```
 
-## Deploy on Vercel
+## 👨‍💻 Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Roland Mehes**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GitHub: https://github.com/Roland-Mehes/Fishing-WebShop
+
+## 📄 License
+
+This project currently does not have a specified license.
