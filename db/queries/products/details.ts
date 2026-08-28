@@ -41,6 +41,12 @@ export async function getProductBySlug(slug: string) {
       variants: {
         with: {
           discounts: true,
+
+          variantAttributes: {
+            with: {
+              attribute: true,
+            },
+          },
         },
       },
 

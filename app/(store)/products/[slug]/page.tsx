@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 
 import { getProductBySlug } from '@/db/queries/products/details';
 import { getImageUrl } from '@/lib/storage/get-image';
+import { notFound } from 'next/navigation';
+import ProductGallery from '../../_components/product/ProductGallery';
+import ProductInfo from '../../_components/product/ProductInfo';
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -66,15 +69,29 @@ const ProductPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const currentProduct = await getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  const primaryImage =
+    product.images.find((image) => image.isPrimary) ?? product.images[0];
+
+  const primaryImageUrl = getImageUrl(primaryImage?.imageKey);
 
   return (
-    <div>
-      <p>{currentProduct?.name}</p>
-      <p>{currentProduct?.images[0].imageKey}</p>
-      <p>{currentProduct?.description}</p>
-      <p>{currentProduct?.ratingAverage}</p>
-    </div>
+    <main>
+      <section>
+        <ProductGallery images={product.images} />
+
+        <ProductInfo product={product} primaryImage={primaryImageUrl} />
+
+        {/* <ProductDescription/> */}
+        {/* ProductSpecifications */}
+        {/* Reviews */}
+      </section>
+    </main>
   );
 };
 
