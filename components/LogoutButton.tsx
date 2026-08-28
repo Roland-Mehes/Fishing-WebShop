@@ -5,6 +5,7 @@ import { Loader } from 'lucide-react';
 
 import { authClient } from '@/lib/auth-client';
 import { Button } from './ui/button';
+import { toast } from 'sonner';
 
 export function LogoutButton() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,10 @@ export function LogoutButton() {
       setLoading(true);
       await authClient.signOut();
       router.refresh();
+      toast.success('S-a realizat logout');
     } catch (e) {
       console.error(e);
+      toast.error('Eroare la logout');
     } finally {
       setLoading(false);
     }
@@ -29,7 +32,7 @@ export function LogoutButton() {
       onClick={handleLogout}
       className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive"
     >
-      {loading ? <Loader /> : 'Kijelentkezés'}
+      {loading ? <Loader /> : 'Logout'}
     </Button>
   );
 }
