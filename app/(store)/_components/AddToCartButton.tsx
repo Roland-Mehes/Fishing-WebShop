@@ -4,6 +4,7 @@ import { ShoppingCart } from 'lucide-react';
 
 import { useCartStore } from '@/lib/storage/cart-store';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 type AddToCartButtonProps = {
   variantId: string;
@@ -49,6 +50,8 @@ export function AddToCartButton({
       variantName,
       attributes,
     });
+
+    toast.success('Produsul a fost adăugat în coș', { position: 'top-center' });
   };
 
   return (
