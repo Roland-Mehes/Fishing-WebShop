@@ -15,12 +15,29 @@ import { Button } from './ui/button';
 const UserDropdown = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
 
+  const initials = session?.user.name
+    .split(' ')
+    .map((name) => name.charAt(0))
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <User className="size-5" />
-        </Button>
+        {!session ? (
+          <Button variant="ghost" size="icon">
+            <User className="size-5" />
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full border border-primary/40 bg-primary/10 text-primary font-semibold hover:bg-primary/20"
+          >
+            {initials}
+          </Button>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className=" w-48">
         <div className="flex flex-col gap-2 bg-background rounded">
