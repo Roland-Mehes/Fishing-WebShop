@@ -23,7 +23,7 @@ export function ProductVariantSelector({
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
-        <span className="text-sm font-medium">Variant</span>
+        <span className="mb-3 text-sm font-medium">Variant</span>
 
         <span className="text-sm text-muted-foreground">
           {

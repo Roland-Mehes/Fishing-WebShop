@@ -30,21 +30,30 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
     sortedImages.find((image) => image.id === selectedImageId) ?? primaryImage;
 
   if (!selectedImage) {
-    <div className="flex aspect-square items-center justify-center rounded-xl border bg-muted">
-      <span className="text-sm text-muted-foreground">
-        Nu există imagine pentru acest produs.
-      </span>
-    </div>;
+    return (
+      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-muted/20">
+        <Image
+          src="/placeholder.png"
+          alt="Placeholder image"
+          width={400}
+          height={400}
+          className="object-contain p-10"
+        />
+      </div>
+    );
   }
 
   const selectedImageUrl = getImageUrl(selectedImage.imageKey);
 
   if (!selectedImageUrl) {
     return (
-      <div className="flex aspect-square items-center justify-center rounded-xl border bg-muted">
-        <span className="text-sm text-muted-foreground">
-          Nu există imagine pentru acest produs.
-        </span>
+      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-muted/20">
+        <Image
+          src="/placeholder.png"
+          alt="Placeholder image"
+          width={400}
+          height={400}
+        />
       </div>
     );
   }
@@ -52,20 +61,20 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
   return (
     <div className="flex flex-col gap-4">
       {/* Main Image */}
-      <div className="relative mx-auto aspect-square w-full max-w-120 overflow-hidden rounded-xl border bg-white">
+      <div className="relative mx-auto aspect-square w-full max-w-120 overflow-hidden rounded-xl bg-muted/20 ">
         <Image
           src={selectedImageUrl}
           alt={selectedImage.alt ?? 'Imagine produs'}
           fill
           priority
           sizes="(max-width: 768px) 100vw, 520px"
-          className="object-contain p-4"
+          className="object-contain p-6 sm:p-10"
         />
       </div>
 
       {/* Thumbnails */}
-      {sortedImages.length > 0 && (
-        <div className="grid grid-cols-5 gap-3 sm:grid-cols-6">
+      {sortedImages.length > 1 && (
+        <div className="grid grid-cols-5 gap-2 sm:grid-cols-6">
           {sortedImages.map((image) => {
             const imageUrl = getImageUrl(image.imageKey);
 
@@ -83,7 +92,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
                 aria-label={`Alege imaginea ${image.sortOrder + 1}`}
                 aria-pressed={isSelected}
                 className={cn(
-                  'relative aspect-square overflow-hidden rounded-lg border bg-white transition',
+                  'relative aspect-square overflow-hidden rounded-lg border bg-background transition',
                   'hover:border-foreground/50',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                   isSelected
