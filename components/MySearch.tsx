@@ -1,7 +1,9 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+
 import { Search } from 'lucide-react';
 
 const MySearch = () => {
@@ -21,7 +23,7 @@ const MySearch = () => {
     "
           />
           <Input
-            placeholder="Keress terméket, márkát vagy cikkszámot..."
+            placeholder="Caută după produs, producător sau un număr de articol..."
             className="
             focus-visible:ring-1
             focus-visible:ring-accent/50

@@ -75,6 +75,10 @@ export const categories = pgTable(
 
     imageKey: text('image_key'),
 
+    isFeatured: boolean('is_featured').notNull().default(false),
+
+    sortOrder: integer('sort_order').notNull().default(0),
+
     parentId: uuid('parent_id').references((): AnyPgColumn => categories.id, {
       onDelete: 'set null',
     }),
@@ -155,27 +159,35 @@ export const products = pgTable(
    PRODUCT IMAGES
 ========================= */
 
-export const productImages = pgTable('product_images', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const productImages = pgTable(
+  'product_images',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  productId: uuid('product_id')
-    .references(() => products.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
+    productId: uuid('product_id')
+      .references(() => products.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
 
-  imageUrl: text('image_url'),
+    imageKey: text('image_key'),
 
-  alt: varchar('alt', {
-    length: 255,
-  }),
+    alt: varchar('alt', {
+      length: 255,
+    }),
 
-  // IF there is more pohoto to a product, which is the order they are shown under the CARD.
-  sortOrder: integer('sort_order').default(0).notNull(),
+    // IF there is more pohoto to a product, which is the order they are shown under the CARD.
+    sortOrder: integer('sort_order').default(0).notNull(),
 
-  // IF there is more pohoto to a product, which is the first one visible on the CARD.
-  isPrimary: boolean('is_primary').default(false).notNull(),
-});
+    // IF there is more pohoto to a product, which is the first one visible on the CARD.
+    isPrimary: boolean('is_primary').default(false).notNull(),
+  },
+  (table) => [
+    uniqueIndex('product_images_one_primary_unique')
+      .on(table.productId)
+      .where(sql`${table.isPrimary} = true`),
+  ],
+);
 
 /* =========================
    PRODUCT VARIANTS

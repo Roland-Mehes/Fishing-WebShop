@@ -5,7 +5,7 @@ import { sql, count, isNull } from 'drizzle-orm';
 export const primaryImageSubquery = db
   .selectDistinctOn([productImages.productId], {
     productId: productImages.productId,
-    imageUrl: productImages.imageUrl,
+    imageUrl: productImages.imageKey,
   })
   .from(productImages)
   .orderBy(

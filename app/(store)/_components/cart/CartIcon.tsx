@@ -15,7 +15,6 @@ export function CartIcon() {
     <CartDrawer>
       <Button
         variant="ghost"
-        size="icon"
         aria-label="Coș de cumpărături"
         className="relative flex size-10 items-center justify-center rounded-md transition-colors cursor-pointer"
       >

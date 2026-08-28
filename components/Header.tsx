@@ -1,13 +1,12 @@
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
 
 import Logo from './Logo';
 import MySearch from './MySearch';
 import UserDropdown from './UserDropdown';
 import { MobileMenu } from './MobileMenu';
 
-import { Button } from './ui/button';
 import { NAV_ITEMS } from '@/config/navigation';
+import { CartIcon } from '@/app/(store)/_components/cart/CartIcon';
 
 const Header = () => {
   return (
@@ -29,18 +28,8 @@ const Header = () => {
           <div className="ml-auto flex items-center gap-1 sm:gap-2 shrink-0">
             <UserDropdown />
 
-<<<<<<< Updated upstream
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="h-6 w-6 text-muted-foreground hover:text-foreground" />
-
-              <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-                3
-              </span>
-            </Button>
-
-=======
             <CartIcon />
->>>>>>> Stashed changes
+
             <MobileMenu navItems={NAV_ITEMS} />
           </div>
         </div>

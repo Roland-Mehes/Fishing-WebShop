@@ -155,7 +155,7 @@ export async function getShopProducts({
        * PRIMARY IMAGE
        */
       imageUrl: sql<string | null>`(
-        select ${productImages.imageUrl}
+        select ${productImages.imageKey}
         from ${productImages}
         where ${productImages.productId} = ${products.id}
           and ${productImages.isPrimary} = true
@@ -166,6 +166,9 @@ export async function getShopProducts({
       /*
        * DEFAULT VARIANT
        */
+      variantId: productVariants.id,
+      sku: productVariants.sku,
+
       price: productVariants.price,
       stock: productVariants.stock,
       reservedStock: productVariants.reservedStock,
@@ -279,8 +282,12 @@ export async function getShopProducts({
 
     return {
       id: product.id,
+      variantId: product.variantId,
+
       name: product.name,
       slug: product.slug,
+
+      sku: product.sku,
 
       imageUrl: product.imageUrl,
 

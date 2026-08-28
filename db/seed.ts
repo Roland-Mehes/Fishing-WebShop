@@ -158,7 +158,7 @@ async function seed() {
 
     await db.insert(productImages).values({
       productId: product.id,
-      imageUrl: `kep-${name}.jpg`,
+      imageKey: `kep-${name}.jpg`,
       alt: name,
       isPrimary: true,
     });

@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Garnai Zsolt Fishing Shop',
+  title: 'Fishing Shop',
   description: 'Cele mai bune preturi din oras pentru echipamente de pescuit',
 };
 
