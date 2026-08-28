@@ -19,7 +19,7 @@ const UserDropdown = async () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <User />
+          <User className="size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className=" w-48">

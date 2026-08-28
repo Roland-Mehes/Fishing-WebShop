@@ -29,6 +29,7 @@ const Header = () => {
           <div className="ml-auto flex items-center gap-1 sm:gap-2 shrink-0">
             <UserDropdown />
 
+<<<<<<< Updated upstream
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-6 w-6 text-muted-foreground hover:text-foreground" />
 
@@ -37,6 +38,9 @@ const Header = () => {
               </span>
             </Button>
 
+=======
+            <CartIcon />
+>>>>>>> Stashed changes
             <MobileMenu navItems={NAV_ITEMS} />
           </div>
         </div>
