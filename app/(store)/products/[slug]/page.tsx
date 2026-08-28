@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { getProductBySlug } from '@/db/queries/products/details';
 import { getImageUrl } from '@/lib/storage/get-image';
 import { notFound } from 'next/navigation';
-import ProductGallery from '../../_components/product/ProductGallery';
-import ProductInfo from '../../_components/product/ProductInfo';
+import ProductGallery from '../../_components/producct/ProductGallery';
+import ProductInfo from '../../_components/producct/ProductInfo';
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -81,8 +81,8 @@ const ProductPage = async ({
   const primaryImageUrl = getImageUrl(primaryImage?.imageKey);
 
   return (
-    <main>
-      <section>
+    <main className="container mx-auto px-4 py-8 sm:px-6 lg:py-12">
+      <section className="grid gap-8 lg:grid-cols-2 lg:gap-12">
         <ProductGallery images={product.images} />
 
         <ProductInfo product={product} primaryImage={primaryImageUrl} />

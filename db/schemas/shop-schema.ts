@@ -292,12 +292,11 @@ export const discounts = pgTable('discounts', {
   }).notNull(),
 
   startsAt: timestamp('starts_at'),
-
   endsAt: timestamp('ends_at'),
-
   active: boolean('active').default(true).notNull(),
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
+  deletedAt: timestamp('deleted_at'),
 });
 
 /* =========================
