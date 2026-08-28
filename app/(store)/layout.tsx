@@ -7,6 +7,9 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Fishing Shop',
   description: 'Cele mai bune preturi din oras pentru echipamente de pescuit',
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+  ),
 };
 
 export default function StoreLayout({
