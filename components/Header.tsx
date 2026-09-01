@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import Logo from './Logo';
-import MySearch from './MySearch';
+import MySearch from '../app/(store)/_components/search/MySearch';
 import UserDropdown from './UserDropdown';
 import { MobileMenu } from './MobileMenu';
 

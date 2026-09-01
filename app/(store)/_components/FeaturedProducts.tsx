@@ -1,6 +1,6 @@
-// ... existing code ..
 import { getShopProducts } from '@/db/queries/products/shop';
 import Image from 'next/image';
+import { getImageUrl } from '@/lib/storage/get-image';
 
 export async function FeaturedProducts() {
   const productsWithDiscounts = await getShopProducts({
@@ -38,7 +38,7 @@ function ProductCard({
       <Image
         height={256}
         width={256}
-        src={product.imageUrl || '/placeholder.png'}
+        src={getImageUrl(product.imageUrl) ?? '/placeholder.png'}
         alt={product.name}
         className="w-full h-64 object-cover"
       />
