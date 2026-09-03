@@ -106,7 +106,11 @@ const MySearch = () => {
             />
           </div>
 
-          <Button type="button" variant="outline" className="hover:text-accent">
+          <Button
+            type="button"
+            variant="outline"
+            className="hidden lg:block hover:text-accent"
+          >
             Search
           </Button>
         </ButtonGroup>
