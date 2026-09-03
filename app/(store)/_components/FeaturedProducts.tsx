@@ -8,7 +8,7 @@ export async function FeaturedProducts() {
     pageSize: 5,
   });
 
-  if (productsWithDiscounts.length === 0) return 'Nincs Promo';
+  if (productsWithDiscounts.totalPages === 0) return 'Nincs Promo';
 
   return (
     <section className="mx-auto py-16">
@@ -18,7 +18,7 @@ export async function FeaturedProducts() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productsWithDiscounts.map((product) => (
+          {productsWithDiscounts.products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -30,7 +30,7 @@ export async function FeaturedProducts() {
 function ProductCard({
   product,
 }: {
-  product: Awaited<ReturnType<typeof getShopProducts>>[number];
+  product: Awaited<ReturnType<typeof getShopProducts>>['products'][number];
 }) {
   return (
     <div className="group relative rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
