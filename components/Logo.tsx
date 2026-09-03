@@ -9,14 +9,14 @@ type LogoProps = {
 };
 
 const sizeMap = {
-  sm: 'h-6',
+  sm: 'h-8',
   md: 'h-10',
   lg: 'h-14',
 };
 
 const Logo = ({ size = 'lg', priority = false, className }: LogoProps) => {
   return (
-    <Link href="/" className="inline-flex items-center ">
+    <Link href="/" className="inline-flex shrink-0 items-center ">
       <Image
         src="/logo.png"
         alt="Logo"

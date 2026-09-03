@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import Logo from './Logo';
-import MySearch from '../app/(store)/_components/search/MySearch';
+import ProductSearch from '../app/(store)/_components/search/ProductSearch';
 import UserDropdown from './UserDropdown';
 import { MobileMenu } from './MobileMenu';
 
@@ -15,12 +15,12 @@ const Header = () => {
       <div className="border-b border-border">
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
           {/* Logo */}
-          <Logo />
+          <Logo size="lg" className="h-10 sm:h-12 lg:h-14" />
 
           {/* Desktop search */}
           <div className="hidden flex-1 justify-center px-4 lg:flex xl:px-8">
             <div className="w-full max-w-2xl">
-              <MySearch />
+              <ProductSearch />
             </div>
           </div>
 
@@ -57,7 +57,7 @@ const Header = () => {
       {/* Mobile search */}
       <div className="lg:hidden border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-          <MySearch />
+          <ProductSearch />
         </div>
       </div>
     </header>

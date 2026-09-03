@@ -50,7 +50,7 @@ const SearchResults = ({
 
   if (!hasResults) {
     return (
-      <div className="p-6 text-center">
+      <div className="sm:p-6 p-5 text-center">
         <p className="text-sm font-medium">Nu au fost găsite rezultate</p>
 
         <p className="mt-1 text-xs text-muted-foreground">
@@ -61,11 +61,11 @@ const SearchResults = ({
   }
 
   return (
-    <div className="max-h-[70vh] overflow-y-auto py-2">
+    <div className="max-h-[60vh] overflow-y-auto py-1 sm:max-h-[70vh] sm:py-2">
       {/* Products */}
       {results.products.length > 0 && (
         <section>
-          <div className="px-4 py-2">
+          <div className="px-3 py-2 sm:px-4">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Produse
             </p>
@@ -85,8 +85,8 @@ const SearchResults = ({
 
       {/* Brands */}
       {results.brands.length > 0 && (
-        <section className="mt-2 border-t border-border pt-2">
-          <div className="px-4 py-2">
+        <section className="mt-1 border-t border-border pt-1 sm:mt-2 sm:pt-2">
+          <div className="sm:px-4 px-3 py-2">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Producători
             </p>
@@ -98,12 +98,15 @@ const SearchResults = ({
               href={`/brands/${brand.slug}`}
               onClick={onSelect}
               className="
-                block
-                px-4
+                flex
+                min-h-11
+                items-center
+                px-3
                 py-2
                 text-sm
                 transition-colors
                 hover:bg-muted
+                sm:px-4
               "
             >
               {brand.name}
@@ -114,8 +117,8 @@ const SearchResults = ({
 
       {/* Categories */}
       {results.categories.length > 0 && (
-        <section className="mt-2 border-t border-border pt-2">
-          <div className="px-4 py-2">
+        <section className="mt-1 border-t border-border pt-1 sm:mt-2 sm:pt-2">
+          <div className="px-3 py-2 sm:px-4 ">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Categorii
             </p>
@@ -127,12 +130,7 @@ const SearchResults = ({
               href={`/categories/${category.slug}`}
               onClick={onSelect}
               className="
-                block
-                px-4
-                py-2
-                text-sm
-                transition-colors
-                hover:bg-muted
+               flex min-h-11 items-center px-3 py-2 text-sm transition-colors hover:bg-muted sm:px-4
               "
             >
               {category.name}

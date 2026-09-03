@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
 
 import { formatCurrency } from '@/lib/formatters/currency';
 import { getImageUrl } from '@/lib/storage/get-image';
@@ -23,14 +22,17 @@ const SearchProductItem = ({ product, onSelect }: SearchProductItemProps) => {
       onClick={onSelect}
       className="
         flex
+        min-h-16
         items-center
         gap-3
-        px-4
+        px-3
         py-2.5
         transition-colors
         hover:bg-muted
-      "
+        sm:px-4
+        "
     >
+      {/* Product image */}
       <div
         className="
           relative
@@ -50,14 +52,11 @@ const SearchProductItem = ({ product, onSelect }: SearchProductItemProps) => {
           fill
           sizes="48px"
           className="object-cover"
-          onError={(event) => {
-            event.currentTarget.src = '/placeholder.png';
-          }}
         />
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">{product.name}</p>
+        <p className="truncate text-sm font-medium leading-5">{product.name}</p>
 
         <p className="mt-0.5 text-sm text-muted-foreground">
           {formatCurrency(product.price)}

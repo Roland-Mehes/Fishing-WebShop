@@ -12,7 +12,7 @@ import { useSearch } from '@/hooks/useSearch';
 
 import SearchResults from './SearchResults';
 
-const MySearch = () => {
+const ProductSearch = () => {
   const { query, setQuery, results, isLoading } = useSearch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -97,8 +97,10 @@ const MySearch = () => {
               value={query}
               onChange={(event) => handleChange(event.target.value)}
               onFocus={handleFocus}
-              placeholder="Caută după produs, producător sau un număr de articol..."
+              placeholder="Caută produse, producători sau coduri..."
               className="
+              h-10
+              sm:h-11
                 pl-10
                 focus-visible:ring-1
                 focus-visible:ring-accent/50
@@ -109,7 +111,7 @@ const MySearch = () => {
           <Button
             type="button"
             variant="outline"
-            className="hidden lg:block hover:text-accent"
+            className="hidden lg:block hover:text-accent h-10"
           >
             Search
           </Button>
@@ -144,4 +146,4 @@ const MySearch = () => {
   );
 };
 
-export default MySearch;
+export default ProductSearch;
