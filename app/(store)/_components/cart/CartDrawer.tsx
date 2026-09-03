@@ -10,6 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from '@/components/ui/sheet';
 
 import { CartItemRow } from './CartItemRow';
@@ -81,12 +82,14 @@ function EmptyCart() {
         Adaugă produse în coș pentru a continua cumpărăturile.
       </p>
 
-      <Link
-        href="/products"
-        className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-      >
-        Continuă cumpărăturile
-      </Link>
+      <SheetClose asChild>
+        <Link
+          href="/products"
+          className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+        >
+          Continuă cumpărăturile
+        </Link>
+      </SheetClose>
     </div>
   );
 }
@@ -112,12 +115,14 @@ function CartDrawerFooter({ subtotal }: { subtotal: number }) {
           Vezi coșul
         </Link>
 
-        <Link
-          href="/checkout"
-          className="flex h-11 items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-        >
-          Finalizează comanda
-        </Link>
+        <SheetClose asChild>
+          <Link
+            href="/checkout"
+            className="flex h-11 items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Finalizează comanda
+          </Link>
+        </SheetClose>
       </div>
     </div>
   );
