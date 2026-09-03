@@ -10,40 +10,42 @@ import { CartIcon } from '@/app/(store)/_components/cart/CartIcon';
 
 const Header = () => {
   return (
-    <header>
+    <header className="w-full">
       {/* Top row */}
       <div className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 flex items-center py-4 ">
+        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
           {/* Logo */}
           <Logo />
 
           {/* Desktop search */}
-          <div className="hidden lg:flex flex-1 justify-center px-6">
+          <div className="hidden flex-1 justify-center px-4 lg:flex xl:px-8">
             <div className="w-full max-w-2xl">
               <MySearch />
             </div>
           </div>
 
           {/* Right side actions */}
-          <div className="ml-auto flex items-center gap-1 sm:gap-2 shrink-0">
+          <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
             <UserDropdown />
 
             <CartIcon />
 
-            <MobileMenu navItems={NAV_ITEMS} />
+            <div className="lg:hidden">
+              <MobileMenu navItems={NAV_ITEMS} />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Desktop navigation */}
-      <div className="hidden lg:block border-b border-border bg-card/30">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-3">
-          <nav className="flex items-center gap-8 text-sm text-muted-foreground">
+      <div className="hidden border-b border-border bg-card/30 lg:block">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 ">
+          <nav className="flex items-center gap-6 overflow-x-auto py-3 text-sm text-muted-foreground xl:gap-8">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.link}
                 href={item.link}
-                className="transition-colors hover:text-foreground"
+                className="shrink-0 whitespace-nowrap transition-colors hover:text-foreground"
               >
                 {item.text}
               </Link>
@@ -54,7 +56,7 @@ const Header = () => {
 
       {/* Mobile search */}
       <div className="lg:hidden border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 py-3">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
           <MySearch />
         </div>
       </div>
