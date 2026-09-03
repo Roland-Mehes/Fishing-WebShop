@@ -2,6 +2,8 @@
 import { getShopProducts } from '@/db/queries/products/shop';
 import Image from 'next/image';
 
+import { getImageUrl } from '@/lib/storage/get-image';
+
 export async function FeaturedProducts() {
   const productsWithDiscounts = await getShopProducts({
     onSale: true,
@@ -11,7 +13,7 @@ export async function FeaturedProducts() {
   if (productsWithDiscounts.length === 0) return 'Nincs Promo';
 
   return (
-    <section className=" mx-auto py-16">
+    <section className="mx-auto py-16">
       <div className="container max-w-7xl  mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8">
           Promoții recomandate
@@ -38,7 +40,7 @@ function ProductCard({
       <Image
         height={256}
         width={256}
-        src={product.imageUrl || '/placeholder.png'}
+        src={getImageUrl(product.imageUrl) || '/placeholder.png'}
         alt={product.name}
         className="w-full h-64 object-cover"
       />

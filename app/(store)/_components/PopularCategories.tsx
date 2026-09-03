@@ -10,7 +10,7 @@ const PopularCategories = async () => {
   return (
     <section
       aria-labelledby="popular-categories-title"
-      className="max-w-7xl mx-auto py-8"
+      className="max-w-7xl mx-auto py-8 px-4"
     >
       <h2
         id="popular-categories-title"

@@ -14,7 +14,7 @@ const HeroSection = () => {
       />
 
       <div className="absolute inset-0">
-        <div className="flex h-full max-w-7xl md:px-6 lg:px-8">
+        <div className="flex h-full max-w-7xl px-4 md:px-6 lg:px-8">
           {/* Content */}
           <div className="mx-auto flex h-full max-w-7xl items-center md:px-6 lg:px-8">
             <div className="max-w-2xl">
