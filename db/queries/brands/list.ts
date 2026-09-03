@@ -94,3 +94,41 @@ export async function getBrandsStats() {
     deleted: deletedResult[0]?.count ?? 0,
   };
 }
+
+// Fetch brands list for client-side use
+
+export async function getShopBrands() {
+  return await db
+    .select({
+      id: brands.id,
+      name: brands.name,
+      slug: brands.slug,
+      brandLogoUrl: brands.logoKey,
+      productCount: count(products.id),
+    })
+    .from(brands)
+    .leftJoin(
+      products,
+      and(eq(products.brandId, brands.id), isNull(products.deletedAt)),
+    )
+    .where(isNull(brands.deletedAt))
+    .groupBy(brands.id, brands.name, brands.slug, brands.logoKey)
+    .orderBy(brands.name);
+}
+
+// Fetch brand by SLUG
+
+export async function getBrandBySlug(slug: string) {
+  const result = await db
+    .select({
+      id: brands.id,
+      name: brands.name,
+      slug: brands.slug,
+      brandLogoUrl: brands.logoKey,
+    })
+    .from(brands)
+    .where(and(eq(brands.slug, slug), isNull(brands.deletedAt)))
+    .limit(1);
+
+  return result[0] ?? null;
+}
