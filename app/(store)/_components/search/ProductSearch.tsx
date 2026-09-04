@@ -3,8 +3,6 @@
 import { Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
@@ -79,10 +77,9 @@ const ProductSearch = () => {
   return (
     <Field className="w-full">
       <div ref={searchRef} className="relative w-full">
-        <ButtonGroup className="w-full">
-          <div className="relative w-full">
-            <Search
-              className="
+        <div className="relative w-full">
+          <Search
+            className="
                 absolute
                 left-3
                 top-1/2
@@ -91,31 +88,22 @@ const ProductSearch = () => {
                 -translate-y-1/2
                 text-muted-foreground
               "
-            />
+          />
 
-            <Input
-              value={query}
-              onChange={(event) => handleChange(event.target.value)}
-              onFocus={handleFocus}
-              placeholder="Caută produse, producători sau coduri..."
-              className="
+          <Input
+            value={query}
+            onChange={(event) => handleChange(event.target.value)}
+            onFocus={handleFocus}
+            placeholder="Caută produse, producători sau coduri..."
+            className="
               h-10
               sm:h-11
                 pl-10
                 focus-visible:ring-1
                 focus-visible:ring-accent/50
               "
-            />
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            className="hidden lg:block hover:text-accent h-10"
-          >
-            Search
-          </Button>
-        </ButtonGroup>
+          />
+        </div>
 
         {shouldShowDropdown && (
           <div

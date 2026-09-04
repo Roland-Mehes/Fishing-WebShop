@@ -3,10 +3,11 @@ import Link from 'next/link';
 import Logo from './Logo';
 import ProductSearch from '../app/(store)/_components/search/ProductSearch';
 import UserDropdown from './UserDropdown';
-import { MobileMenu } from './MobileMenu';
+import { MobileMenu } from '../app/(store)/_components/MobileMenu';
 
 import { NAV_ITEMS } from '@/config/navigation';
 import { CartIcon } from '@/app/(store)/_components/cart/CartIcon';
+import DesktopNavigation from '@/app/(store)/_components/DesktopNavigation';
 
 const Header = () => {
   return (
@@ -38,21 +39,7 @@ const Header = () => {
       </div>
 
       {/* Desktop navigation */}
-      <div className="hidden border-b border-border bg-card/30 lg:block">
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 ">
-          <nav className="flex items-center gap-6 overflow-x-auto py-3 text-sm text-muted-foreground xl:gap-8">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.link}
-                href={item.link}
-                className="shrink-0 whitespace-nowrap transition-colors hover:text-foreground"
-              >
-                {item.text}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
+      <DesktopNavigation navItems={NAV_ITEMS} />
 
       {/* Mobile search */}
       <div className="lg:hidden border-b border-border">
