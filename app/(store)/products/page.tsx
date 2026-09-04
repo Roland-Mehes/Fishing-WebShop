@@ -1,4 +1,4 @@
-import ProductCard from '@/app/(store)/_components/producct/ProductCard';
+import ProductCard from '@/app/(store)/_components/product/ProductCard';
 import { getShopProducts } from '@/db/queries/products/shop';
 import Pagination from '../_components/Pagination';
 
