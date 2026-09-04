@@ -7,6 +7,7 @@ import Link from 'next/link';
 import type { ShopProductListItem } from '@/db/queries/products/shop';
 import { getImageUrl } from '@/lib/storage/get-image';
 import { AddToCartButton } from '@/app/(store)/_components/AddToCartButton';
+import { formatCurrency } from '@/lib/formatters/currency';
 
 type ProductCardProps = {
   product: ShopProductListItem;
@@ -16,16 +17,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const imageUrl = getImageUrl(product.imageUrl);
 
   return (
-    <Card className="w-full max-w-sm overflow-hidden pt-0 group transition-all duration-300 hover:border-primary/40 hover:shadow-lg">
+    <Card className="group overflow-hidden pt-0 transition-all duration-200 hover:border-primary/30 hover:shadow-md">
       {/* IMAGE WRAPPER */}
       <Link href={`/products/${product.slug}`}>
-        <div className="relative overflow-hidden">
+        <div className="relative aspect-4/3 overflow-hidden bg-muted/30">
           <Image
             src={imageUrl || '/placeholder.png'}
             alt={product.name}
-            width={400}
-            height={300}
-            className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            // width={400}
+            // height={300}
+            fill
+            className="object-contain p-4 transition-transform duration-500 group-hover:scale-[1.03]"
           />
 
           {/* Discount Badge */}
@@ -43,39 +45,33 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </CardTitle>
 
           {/* RATING */}
-          <div className="flex items-center gap-1 text-sm">
-            {Array.from({ length: 5 }).map((_, index) => {
-              const filled = index < Math.round(product.ratingAverage);
-
-              return (
-                <Star
-                  key={index}
-                  size={16}
-                  className={
-                    filled
-                      ? 'fill-primary text-primary'
-                      : 'text-muted-foreground'
-                  }
-                />
-              );
-            })}
-
-            <span className="ml-2 text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-sm">
+            <Star className="size-4 fill-primary text-primary" />
+            <span className="font-medium">
+              {product.ratingAverage.toFixed(1)}
+            </span>
+            <span className="text-muted-foreground">
               ({product.ratingCount})
             </span>
           </div>
 
           {/* PRICE */}
-          <div className="flex items-end gap-2">
+          <div className="flex items-baseline gap-2">
+            <span
+              className={
+                product.originalPrice !== null
+                  ? 'text-lg font-bold text-primary'
+                  : 'text-lg font-bold'
+              }
+            >
+              {formatCurrency(product.price)}
+            </span>
+
             {product.originalPrice !== null && (
               <span className="text-sm text-muted-foreground line-through">
-                {product.originalPrice.toFixed(2)} RON
+                {formatCurrency(product.originalPrice)}
               </span>
             )}
-
-            <span className="text-xl font-bold text-primary">
-              {product.price.toFixed(2)} RON
-            </span>
           </div>
         </CardHeader>
       </Link>

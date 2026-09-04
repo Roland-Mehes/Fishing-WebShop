@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/app/(store)/_components/producct/ProductCard';
 import { getBrandBySlug } from '@/db/queries/brands/list';
 import { getShopProducts } from '@/db/queries/products/shop';
 import Pagination from '../../_components/Pagination';

@@ -90,10 +90,11 @@ export async function getShopProducts({
   if (search?.trim()) {
     const searchTerm = `%${search.trim()}%`;
 
-    const searchFilter = or(
-      ilike(products.name, searchTerm),
+    filters.push(
+      or(
+        ilike(products.name, searchTerm),
 
-      sql`exists (
+        sql`exists (
         select 1
         from ${productVariants} search_variant
         where search_variant.product_id = ${products.id}
@@ -101,12 +102,10 @@ export async function getShopProducts({
             search_variant.sku ilike ${searchTerm}
             or search_variant.ean ilike ${searchTerm}
           )
+          and search_variant_deleted_at is Null
       )`,
+      )!,
     );
-
-    if (searchFilter) {
-      filters.push(searchFilter);
-    }
   }
 
   /*
