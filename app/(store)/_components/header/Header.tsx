@@ -62,16 +62,17 @@ const Header = () => {
         {/* Mobile search */}
         <div
           className="
-    overflow-hidden
     border-b border-border
-    transition-[max-height,opacity,padding]
+    transition-[opacity,transform,border-color]
     duration-250
     lg:hidden
-    max-h-24
     opacity-100
-    group-data-[compact=true]:max-h-0
+    translate-y-0
+    group-data-[compact=true]:pointer-events-none
+    group-data-[compact=true]:-translate-y-2
     group-data-[compact=true]:opacity-0
     group-data-[compact=true]:border-transparent
+    group-data-[compact=true]:max-h-0
   "
         >
           <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">

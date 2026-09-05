@@ -50,6 +50,8 @@ export function useSearch({
   const requestIdRef = useRef(0);
 
   useEffect(() => {
+    console.log('SEARCH QUERY CHANGED:', query);
+
     const trimmedQuery = query.trim();
 
     if (trimmedQuery.length < minLength) {
@@ -57,20 +59,28 @@ export function useSearch({
     }
 
     const timeout = setTimeout(async () => {
+      console.log('SEARCH TIMEOUT FIRED:', trimmedQuery);
+
       const requestId = ++requestIdRef.current;
 
       try {
         setIsLoading(true);
 
+        console.log('SEARCH FETCH START');
+
         const response = await fetch(
           `/api/search?q=${encodeURIComponent(trimmedQuery)}`,
         );
+
+        console.log('SEARCH RESPONSE:', response.status);
 
         if (!response.ok) {
           throw new Error('Search request failed');
         }
 
         const data: SearchResults = await response.json();
+
+        console.log('SEARCH DATA:', data);
 
         if (requestId !== requestIdRef.current) {
           return;
