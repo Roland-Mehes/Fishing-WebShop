@@ -18,7 +18,23 @@ export default function DesktopNavigation({
   const pathname = usePathname();
 
   return (
-    <div className="hidden border-b border-border bg-card/40 lg:block">
+    <div
+      className="
+        hidden
+        max-h-20
+        overflow-hidden
+        border-b border-border
+        bg-card/40
+        opacity-100
+        transition-[max-height,opacity,border-color]
+        duration-300
+        lg:block
+        group-data-[compact=true]:max-h-0
+        group-data-[compact=true]:border-transparent
+        group-data-[compact=true]:opacity-0
+         group-data-[compact=true]:pointer-events-none
+      "
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <nav
           aria-label="Navigarea principală"
