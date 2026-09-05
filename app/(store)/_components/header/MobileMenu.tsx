@@ -11,11 +11,11 @@ import {
 } from '@/components/ui/sheet';
 import { ChevronRight, Menu } from 'lucide-react';
 import Link from 'next/link';
-
 import { usePathname } from 'next/navigation';
 
-import { Button } from '../../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useHeaderScroll } from './HeaderScroll';
 
 type MobileMenuProps = {
   navItems: {
@@ -26,6 +26,7 @@ type MobileMenuProps = {
 
 export function MobileMenu({ navItems }: MobileMenuProps) {
   const pathname = usePathname();
+  const { isCompact } = useHeaderScroll();
 
   return (
     <Sheet>
@@ -34,7 +35,10 @@ export function MobileMenu({ navItems }: MobileMenuProps) {
           variant="ghost"
           size="icon"
           aria-label="Deschide meniul"
-          className="hover:bg-secondary"
+          className={cn(
+            'hover:bg-secondary',
+            isCompact ? 'lg:flex' : 'lg:hidden',
+          )}
         >
           <Menu className="size-6" />
         </Button>
