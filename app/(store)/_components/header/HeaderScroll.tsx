@@ -73,6 +73,17 @@ export default function HeaderScroll({ children }: HeaderScrollProps) {
      * Mobile
      */
     const handleTouchStart = (event: TouchEvent) => {
+      const target = event.target as HTMLElement;
+
+      if (
+        target.closest('input, textarea, select, button, a, [role="button"]')
+      ) {
+        touchStartY = 0;
+        touchLastY = 0;
+        touchDirectionLocked = true;
+        return;
+      }
+
       const startY = event.touches[0]?.clientY ?? 0;
 
       touchStartY = startY;
