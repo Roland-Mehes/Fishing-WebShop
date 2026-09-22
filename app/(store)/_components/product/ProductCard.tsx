@@ -17,9 +17,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const imageUrl = getImageUrl(product.imageUrl);
 
   return (
-    <Card className="group overflow-hidden pt-0 transition-all duration-200 hover:border-primary/30 hover:shadow-md">
+    <Card className="group flex h-full flex-col overflow-hidden pt-0 transition-all duration-200 hover:border-primary/30 hover:shadow-md">
       {/* IMAGE WRAPPER */}
-      <Link href={`/products/${product.slug}`}>
+      <Link href={`/products/${product.slug}`} className="flex flex-1 flex-col">
         <div className="relative aspect-4/3 overflow-hidden bg-muted/30">
           <Image
             src={imageUrl || '/placeholder.png'}
@@ -38,7 +38,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
         </div>
 
-        <CardHeader className="space-y-2 pt-3">
+        <CardHeader className="flex-1 space-y-2 pt-3">
           {/* Name */}
           <CardTitle className="line-clamp-2 text-base font-semibold leading-tight">
             {product.name}
