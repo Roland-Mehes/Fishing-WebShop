@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { getProductBySlug } from '@/db/queries/products/details';
 import { getImageUrl } from '@/lib/storage/get-image';
 import { notFound } from 'next/navigation';
-import ProductGallery from '../../_components/producct/ProductGallery';
-import ProductInfo from '../../_components/producct/ProductInfo';
+import ProductGallery from '../../_components/product/ProductGallery';
+import ProductInfo from '../../_components/product/ProductInfo';
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;

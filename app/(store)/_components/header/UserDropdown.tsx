@@ -9,8 +9,8 @@ import Link from 'next/link';
 
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import { LogoutButton } from './LogoutButton';
-import { Button } from './ui/button';
+import { LogoutButton } from '../../../../components/LogoutButton';
+import { Button } from '../../../../components/ui/button';
 
 const UserDropdown = async () => {
   const session = await auth.api.getSession({ headers: await headers() });

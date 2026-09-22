@@ -17,28 +17,28 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const imageUrl = getImageUrl(product.imageUrl);
 
   return (
-    <Card className="group overflow-hidden pt-0 transition-all duration-200 hover:border-primary/30 hover:shadow-md">
+    <Card className="group flex h-full flex-col overflow-hidden pt-0 transition-all duration-200 hover:border-primary/30 hover:shadow-md">
       {/* IMAGE WRAPPER */}
-      <Link href={`/products/${product.slug}`}>
+      <Link href={`/products/${product.slug}`} className="flex flex-1 flex-col">
         <div className="relative aspect-4/3 overflow-hidden bg-muted/30">
           <Image
             src={imageUrl || '/placeholder.png'}
             alt={product.name}
-            // width={400}
-            // height={300}
             fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-contain p-4 transition-transform duration-500 group-hover:scale-[1.03]"
           />
 
           {/* Discount Badge */}
-          {product.discountPercentage !== null && (
-            <div className="absolute left-2 top-2">
-              <Badge variant="sale">-{product.discountPercentage}%</Badge>
-            </div>
-          )}
+          {product.discountPercentage !== null &&
+            product.discountPercentage > 0 && (
+              <div className="absolute left-2 top-2">
+                <Badge variant="sale">-{product.discountPercentage}%</Badge>
+              </div>
+            )}
         </div>
 
-        <CardHeader className="space-y-2 pt-3">
+        <CardHeader className="flex-1 space-y-2 pt-3">
           {/* Name */}
           <CardTitle className="line-clamp-2 text-base font-semibold leading-tight">
             {product.name}

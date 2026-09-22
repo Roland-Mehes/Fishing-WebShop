@@ -181,7 +181,6 @@ Instrument Sans */
 
   html {
     @apply font-sans;
-    scroll-behavior: smooth;
 
     ::-webkit-scrollbar {
       display: none;
@@ -198,7 +197,7 @@ Instrument Sans */
   html,
   body {
     height: 100%;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     background: var(--background);
   }
 

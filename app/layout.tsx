@@ -20,6 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html
+      data-scroll-behavior="smooth"
+      dir="ltr"
       lang="en"
       className={`${inter.variable} ${oswald.variable} h-full antialiased`}
     >

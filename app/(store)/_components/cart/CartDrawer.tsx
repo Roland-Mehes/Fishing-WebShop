@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
   SheetClose,
+  SheetDescription,
 } from '@/components/ui/sheet';
 
 import { CartItemRow } from './CartItemRow';
@@ -47,6 +48,10 @@ export function CartDrawer({ children }: CartDrawerProps) {
               </span>
             )}
           </SheetTitle>
+
+          <SheetDescription className="sr-only">
+            Produsele adăugate în coșul tău de cumpărături.
+          </SheetDescription>
         </SheetHeader>
 
         {items.length === 0 ? (
