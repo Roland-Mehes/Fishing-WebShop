@@ -26,7 +26,7 @@ export const searchProducts = async (query: string) => {
       name: products.name,
       slug: products.slug,
 
-      imageUrl: sql<string | null>`(
+      imageKey: sql<string | null>`(
             select ${productImages.imageKey} from ${productImages} where ${productImages.productId} = ${products.id} and ${productImages.isPrimary} = true order by ${productImages.sortOrder} asc limit 1 
         )`,
 

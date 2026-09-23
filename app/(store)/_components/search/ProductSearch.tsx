@@ -21,13 +21,6 @@ const ProductSearch = () => {
 
   const shouldShowDropdown = isOpen && trimmedQuery.length >= 2;
 
-  console.log('SEARCH UI:', {
-    query,
-    isOpen,
-    shouldShowDropdown,
-    results,
-  });
-
   /*
    * Close dropdown when clicking outside.
    */
@@ -72,8 +65,6 @@ const ProductSearch = () => {
   };
 
   const handleChange = (value: string) => {
-    console.log('HANDLE CHANGE: ', value);
-
     setQuery(value);
 
     setIsOpen(value.trim().length >= 2);
@@ -102,7 +93,6 @@ const ProductSearch = () => {
           <Input
             value={query}
             onChange={(event) => {
-              console.log('INPUT: ', event.target.value);
               handleChange(event.target.value);
             }}
             onFocus={handleFocus}

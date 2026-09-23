@@ -274,30 +274,38 @@ export const productVariantAttributes = pgTable(
    DISCOUNTS
 ========================= */
 
-export const discounts = pgTable('discounts', {
-  id: uuid('id').defaultRandom().primaryKey(),
+export const discounts = pgTable(
+  'discounts',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
 
-  variantId: uuid('variant_id')
-    .references(() => productVariants.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
+    variantId: uuid('variant_id')
+      .references(() => productVariants.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
 
-  type: discountEnum('type').default('percentage').notNull(),
+    type: discountEnum('type').default('percentage').notNull(),
 
-  value: numeric('value', {
-    precision: 10,
-    scale: 2,
-    mode: 'number',
-  }).notNull(),
+    value: numeric('value', {
+      precision: 10,
+      scale: 2,
+      mode: 'number',
+    }).notNull(),
 
-  startsAt: timestamp('starts_at'),
-  endsAt: timestamp('ends_at'),
-  active: boolean('active').default(true).notNull(),
+    startsAt: timestamp('starts_at'),
+    endsAt: timestamp('ends_at'),
+    active: boolean('active').default(true).notNull(),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  deletedAt: timestamp('deleted_at'),
-});
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
+  },
+  (table) => [
+    uniqueIndex(`discounts_one_active_per_variant`)
+      .on(table.variantId)
+      .where(sql`${table.active}=true`),
+  ],
+);
 
 /* =========================
    REVIEWS

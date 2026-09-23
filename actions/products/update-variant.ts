@@ -2,17 +2,19 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { updateVariant } from '@/db/mutations/products/variants/update';
+import { updateVariantWithDiscount } from '@/db/mutations/products/variants/update-with-discount';
 
 import {
-  UpdateVariantSchema,
-  type UpdateVariantInput,
+  UpdateVariantWithDiscountSchema,
+  type UpdateVariantWithDiscountInput,
 } from '@/lib/validation/products/product-variants-schema';
 
-export async function updateVariantAction(data: UpdateVariantInput) {
-  const validated = UpdateVariantSchema.parse(data);
+export async function updateVariantAction(
+  data: UpdateVariantWithDiscountInput,
+) {
+  const validated = UpdateVariantWithDiscountSchema.parse(data);
 
-  await updateVariant(validated);
+  await updateVariantWithDiscount(validated);
 
   revalidatePath(`/admin/products/${validated.productId}`);
 

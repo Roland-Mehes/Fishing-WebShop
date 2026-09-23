@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import ProductGallery from '../../_components/product/ProductGallery';
 import ProductInfo from '../../_components/product/ProductInfo';
 
+import { getPrimaryProductImage } from '@/lib/helpers/product-images';
+
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -30,7 +32,8 @@ export async function generateMetadata({
     ? product.description.slice(0, 160)
     : `Cumpără produsul ${product.name} din magazinul nostru de pescuit!`;
 
-  const image = getImageUrl(product.images[0]?.imageKey);
+  const primaryImage = getPrimaryProductImage(product.images);
+  const image = getImageUrl(primaryImage?.imageKey);
 
   return {
     title,
@@ -75,15 +78,14 @@ const ProductPage = async ({
     notFound();
   }
 
-  const primaryImage =
-    product.images.find((image) => image.isPrimary) ?? product.images[0];
+  const primaryImage = getPrimaryProductImage(product.images);
 
   const primaryImageUrl = getImageUrl(primaryImage?.imageKey);
 
   return (
     <main className="container mx-auto px-4 py-8 sm:px-6 lg:py-12">
       <section className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <ProductGallery images={product.images} />
+        <ProductGallery productName={product.name} images={product.images} />
 
         <ProductInfo product={product} primaryImage={primaryImageUrl} />
 

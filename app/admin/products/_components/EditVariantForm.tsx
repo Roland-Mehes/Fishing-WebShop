@@ -9,19 +9,27 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateVariantAction } from '@/actions/products/update-variant';
+import {
+  EditVariantWithDiscountSchema,
+  type EditVariantWithDiscountInput,
+} from '@/lib/validation/products/product-variants-schema';
+import DiscountForm from './DiscountForm';
 
-import { EditVariantFormSchema } from '@/lib/validation/products/product-variants-schema';
-import { FormFields } from '@/lib/validation/products/product-variants-schema';
+import { formatDateTimeLocal } from '@/lib/formatters/date';
 
 type EditVariantFormProps = {
   variant: ProductVariant;
 };
 
 const EditVariantForm = ({ variant }: EditVariantFormProps) => {
+  const activeDiscount = variant.discounts.find(
+    (discount) => discount.active && !discount.deletedAt,
+  );
+
   const {
     register,
     handleSubmit,
@@ -29,33 +37,50 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
     control,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormFields>({
-    resolver: zodResolver(EditVariantFormSchema),
+  } = useForm<EditVariantWithDiscountInput>({
+    resolver: zodResolver(EditVariantWithDiscountSchema),
     defaultValues: {
-      variantName: variant.variantName,
-      sku: variant.sku,
-      ean: variant.ean ?? '',
-      price: variant.price,
-      stock: variant.stock,
-      reservedStock: variant.reservedStock,
-      active: variant.active,
-      isDefault: variant.isDefault,
+      variant: {
+        variantName: variant.variantName,
+        sku: variant.sku,
+        ean: variant.ean ?? '',
+        price: variant.price,
+        stock: variant.stock,
+        reservedStock: variant.reservedStock,
+        active: variant.active,
+        isDefault: variant.isDefault,
+      },
+
+      discount: {
+        type: activeDiscount?.type ?? 'percentage',
+        value: activeDiscount?.value ?? 0,
+        startsAt: activeDiscount
+          ? formatDateTimeLocal(activeDiscount.startsAt)
+          : '',
+        endsAt: activeDiscount
+          ? formatDateTimeLocal(activeDiscount.endsAt)
+          : '',
+        active: activeDiscount?.active ?? false,
+      },
     },
   });
 
   const router = useRouter();
 
-  const stock = watch('stock') ?? 0;
-  const reservedStock = watch('reservedStock') ?? 0;
+  const stock = watch('variant.stock') ?? 0;
+  const reservedStock = watch('variant.reservedStock') ?? 0;
 
   const availableStock = Math.max(0, (stock || 0) - (reservedStock || 0));
 
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+  const onSubmit: SubmitHandler<EditVariantWithDiscountInput> = async (
+    data,
+  ) => {
     try {
       await updateVariantAction({
-        ...data,
-        variantId: variant.variantId,
+        ...data.variant,
+        variantId: variant.id,
         productId: variant.productId,
+        discount: data.discount,
       });
 
       reset(data);
@@ -80,12 +105,12 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
               <Label htmlFor="variantName">Varianta</Label>
               <Input
                 id="variantName"
-                {...register('variantName')}
-                aria-invalid={!!errors.variantName}
+                {...register('variant.variantName')}
+                aria-invalid={!!errors.variant?.variantName}
               />
-              {errors.variantName && (
+              {errors.variant?.variantName && (
                 <p className="text-sm text-destructive">
-                  {errors.variantName.message}
+                  {errors.variant.variantName.message}
                 </p>
               )}
             </div>
@@ -94,12 +119,14 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
               <Label htmlFor="sku">SKU</Label>
               <Input
                 id="sku"
-                {...register('sku')}
-                aria-invalid={!!errors.sku}
+                {...register('variant.sku')}
+                aria-invalid={!!errors.variant?.sku}
               />
 
-              {errors.sku && (
-                <p className="text-sm text-destructive">{errors.sku.message}</p>
+              {errors.variant?.sku && (
+                <p className="text-sm text-destructive">
+                  {errors.variant?.sku.message}
+                </p>
               )}
             </div>
 
@@ -107,11 +134,13 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
               <Label htmlFor="ean">EAN</Label>
               <Input
                 id="ean"
-                {...register('ean')}
-                aria-invalid={!!errors.ean}
+                {...register('variant.ean')}
+                aria-invalid={!!errors.variant?.ean}
               />
-              {errors.ean && (
-                <p className="text-sm text-destructive">{errors.ean.message}</p>
+              {errors.variant?.ean && (
+                <p className="text-sm text-destructive">
+                  {errors.variant.ean.message}
+                </p>
               )}
             </div>
           </CardContent>
@@ -122,24 +151,33 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
             <CardTitle>Pricing</CardTitle>
           </CardHeader>
 
-          <CardContent>
+          <CardContent className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="price">Pret</Label>
+
               <Input
                 id="price"
                 type="number"
                 step="0.01"
-                {...register('price', {
+                {...register('variant.price', {
                   setValueAs: (value) => (value === '' ? 0 : Number(value)),
                 })}
-                aria-invalid={!!errors.price}
+                aria-invalid={!!errors.variant?.price}
               />
-              {errors.price && (
+
+              {errors.variant?.price && (
                 <p className="text-sm text-destructive">
-                  {errors.price.message}
+                  {errors.variant.price.message}
                 </p>
               )}
             </div>
+
+            <DiscountForm
+              register={register}
+              control={control}
+              errors={errors.discount}
+              price={watch('variant.price')}
+            />
           </CardContent>
         </Card>
 
@@ -154,14 +192,14 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
               <Input
                 id="stock"
                 type="number"
-                {...register('stock', {
+                {...register('variant.stock', {
                   setValueAs: (value) => (value === '' ? 0 : Number(value)),
                 })}
-                aria-invalid={!!errors.stock}
+                aria-invalid={!!errors.variant?.stock}
               />
-              {errors.stock && (
+              {errors.variant?.stock && (
                 <p className="text-sm text-destructive">
-                  {errors.stock.message}
+                  {errors.variant.stock.message}
                 </p>
               )}
             </div>
@@ -171,14 +209,14 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
               <Input
                 id="reservedStock"
                 type="number"
-                {...register('reservedStock', {
+                {...register('variant.reservedStock', {
                   setValueAs: (value) => (value === '' ? 0 : Number(value)),
                 })}
-                aria-invalid={!!errors.reservedStock}
+                aria-invalid={!!errors.variant?.reservedStock}
               />
-              {errors.reservedStock && (
+              {errors.variant?.reservedStock && (
                 <p className="text-sm text-destructive">
-                  {errors.reservedStock?.message}
+                  {errors.variant.reservedStock?.message}
                 </p>
               )}
             </div>
@@ -201,7 +239,7 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
 
               <Controller
                 control={control}
-                name="active"
+                name="variant.active"
                 render={({ field }) => (
                   <Switch
                     checked={field.value}
@@ -216,7 +254,7 @@ const EditVariantForm = ({ variant }: EditVariantFormProps) => {
 
               <Controller
                 control={control}
-                name="isDefault"
+                name="variant.isDefault"
                 render={({ field }) => (
                   <Switch
                     checked={field.value}

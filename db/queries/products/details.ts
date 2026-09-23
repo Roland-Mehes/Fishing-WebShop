@@ -8,7 +8,9 @@ export async function getProductForEdit(id: string) {
     with: {
       brand: true,
       category: true,
-      images: true,
+      images: {
+        orderBy: (images, { asc }) => [asc(images.sortOrder)],
+      },
 
       variants: {
         with: {
