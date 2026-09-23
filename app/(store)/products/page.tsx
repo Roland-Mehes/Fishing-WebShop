@@ -17,7 +17,8 @@ export default async function ProductsPage({
 
   const result = await getShopProducts({
     page: currentPage,
-    pageSize: 5,
+    pageSize: 8,
+    inStock: false,
   });
 
   return (

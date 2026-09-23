@@ -1,7 +1,6 @@
-import { notFound } from 'next/navigation';
-
-import { getProductForEdit } from '@/db/queries/products/get-product-for-edit';
+import { getProductForEdit } from '@/db/queries/products/details';
 import ProductImageUpload from '@/app/admin/_components/ProductImageUpload';
+import { notFound } from 'next/navigation';
 
 type ProductEditPageProps = {
   params: Promise<{
@@ -22,12 +21,17 @@ const ProductEditPage = async ({ params }: ProductEditPageProps) => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Produs: {product.name}</h1>
+
         <p className="text-sm text-muted-foreground">
           Editeaza informatiile produsului.
         </p>
       </div>
 
-      <ProductImageUpload productId={product} />
+      <ProductImageUpload
+        productId={product.id}
+        productName={product.name}
+        images={product.images}
+      />
     </div>
   );
 };

@@ -159,7 +159,7 @@ export async function getShopProducts({
         /*
          * PRIMARY IMAGE
          */
-        imageUrl: sql<string | null>`(
+        imageKey: sql<string | null>`(
         select ${productImages.imageKey}
         from ${productImages}
         where ${productImages.productId} = ${products.id}
@@ -304,7 +304,7 @@ export async function getShopProducts({
         name: product.name,
         slug: product.slug,
         sku: product.sku,
-        imageUrl: product.imageUrl,
+        imageKey: product.imageKey,
         price: finalPrice,
         originalPrice,
         discountPercentage,

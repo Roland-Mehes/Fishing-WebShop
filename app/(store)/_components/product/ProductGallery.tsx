@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+import { getPrimaryProductImage } from '@/lib/helpers/product-images';
+
 import { cn } from '@/lib/utils';
 import { getImageUrl } from '@/lib/storage/get-image';
 
@@ -15,47 +17,30 @@ type ProductImage = {
 };
 
 type ProductGalleryProps = {
+  productName: string;
   images: ProductImage[];
 };
 
-const ProductGallery = ({ images }: ProductGalleryProps) => {
+const ProductGallery = ({ productName, images }: ProductGalleryProps) => {
   const sortedImages = [...images].sort((a, b) => a.sortOrder - b.sortOrder);
 
-  const primaryImage =
-    sortedImages.find((image) => image.isPrimary) ?? sortedImages[0];
+  const primaryImage = getPrimaryProductImage(sortedImages);
 
-  const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
+  const [selectedImageId, setSelectedImageId] = useState(
+    primaryImage?.id ?? null,
+  );
 
   const selectedImage =
     sortedImages.find((image) => image.id === selectedImageId) ?? primaryImage;
 
   if (!selectedImage) {
-    return (
-      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-muted/20">
-        <Image
-          src="/placeholder.png"
-          alt="Placeholder image"
-          width={400}
-          height={400}
-          className="object-contain p-10"
-        />
-      </div>
-    );
+    return <ProductImagePlaceholder />;
   }
 
   const selectedImageUrl = getImageUrl(selectedImage.imageKey);
 
   if (!selectedImageUrl) {
-    return (
-      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-muted/20">
-        <Image
-          src="/placeholder.png"
-          alt="Placeholder image"
-          width={400}
-          height={400}
-        />
-      </div>
-    );
+    return <ProductImagePlaceholder />;
   }
 
   return (
@@ -64,7 +49,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
       <div className="relative mx-auto aspect-square w-full max-w-120 overflow-hidden rounded-xl bg-muted/20 ">
         <Image
           src={selectedImageUrl}
-          alt={selectedImage.alt ?? 'Imagine produs'}
+          alt={selectedImage.alt ?? productName}
           fill
           priority
           sizes="(max-width: 768px) 100vw, 520px"
@@ -75,7 +60,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
       {/* Thumbnails */}
       {sortedImages.length > 1 && (
         <div className="grid grid-cols-5 gap-2 sm:grid-cols-6">
-          {sortedImages.map((image) => {
+          {sortedImages.map((image, index) => {
             const imageUrl = getImageUrl(image.imageKey);
 
             if (!imageUrl) {
@@ -89,7 +74,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
                 key={image.id}
                 type="button"
                 onClick={() => setSelectedImageId(image.id)}
-                aria-label={`Alege imaginea ${image.sortOrder + 1}`}
+                aria-label={`Alege imaginea ${index + 1}`}
                 aria-pressed={isSelected}
                 className={cn(
                   'relative aspect-square overflow-hidden rounded-lg border bg-background transition',
@@ -102,7 +87,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
               >
                 <Image
                   src={imageUrl}
-                  alt={image.alt ?? 'Imagine produs'}
+                  alt={image.alt ?? productName}
                   fill
                   sizes="100px"
                   className="object-contain p-1"
@@ -117,3 +102,15 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 };
 
 export default ProductGallery;
+
+const ProductImagePlaceholder = () => (
+  <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-muted/20">
+    <Image
+      src="/placeholder.png"
+      alt="Placeholder image"
+      width={400}
+      height={400}
+      className="object-contain p-10"
+    />
+  </div>
+);

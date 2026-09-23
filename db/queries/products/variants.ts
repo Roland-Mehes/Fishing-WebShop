@@ -33,25 +33,41 @@ export type VariantListItems = Awaited<
 
 // Get Product Variant Attributes
 
-export const getVariantById = async (variantId: string) => {
-  const [variant] = await db
-    .select({
-      variantId: productVariants.id,
-      productId: productVariants.productId,
-      variantName: productVariants.variantName,
-      sku: productVariants.sku,
-      ean: productVariants.ean,
-      price: productVariants.price,
-      stock: productVariants.stock,
-      reservedStock: productVariants.reservedStock,
-      active: productVariants.active,
-      isDefault: productVariants.isDefault,
-      sortOrder: productVariants.sortOrder,
-    })
-    .from(productVariants)
-    .where(eq(productVariants.id, variantId));
+// export const getVariantById = async (variantId: string) => {
+//   const [variant] = await db
+//     .select({
+//       variantId: productVariants.id,
+//       productId: productVariants.productId,
+//       variantName: productVariants.variantName,
+//       sku: productVariants.sku,
+//       ean: productVariants.ean,
+//       price: productVariants.price,
+//       stock: productVariants.stock,
+//       reservedStock: productVariants.reservedStock,
+//       active: productVariants.active,
+//       isDefault: productVariants.isDefault,
+//       sortOrder: productVariants.sortOrder,
+//     })
+//     .from(productVariants)
+//     .where(eq(productVariants.id, variantId));
 
-  return variant;
+//   return variant;
+// };
+
+export const getVariantById = async (variantId: string) => {
+  return db.query.productVariants.findFirst({
+    where: eq(productVariants.id, variantId),
+    with: {
+      discounts: true,
+      variantAttributes: {
+        with: {
+          attribute: true,
+        },
+      },
+    },
+  });
 };
 
-export type ProductVariant = Awaited<ReturnType<typeof getVariantById>>;
+export type ProductVariant = NonNullable<
+  Awaited<ReturnType<typeof getVariantById>>
+>;

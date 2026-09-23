@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { DiscountSchema } from './discounts-schema';
+
 export const EditVariantFormSchema = z
   .object({
     variantName: z.string().min(1, 'Numele variantei este obligatoriu'),
@@ -39,5 +41,33 @@ export const UpdateVariantSchema = EditVariantFormSchema.extend({
 });
 
 export type FormFields = z.infer<typeof EditVariantFormSchema>;
-
 export type UpdateVariantInput = z.infer<typeof UpdateVariantSchema>;
+
+export const EditVariantWithDiscountSchema = z
+  .object({
+    variant: EditVariantFormSchema,
+    discount: DiscountSchema,
+  })
+  .refine(
+    (data) => {
+      if (data.discount.type !== 'fixed') return true;
+
+      return data.discount.value < data.variant.price;
+    },
+    {
+      message: 'Reducerea fixa trebuie sa fie mai mica decat pretul produsului',
+      path: ['discount', 'value'],
+    },
+  );
+
+export type EditVariantWithDiscountInput = z.infer<
+  typeof EditVariantWithDiscountSchema
+>;
+
+export const UpdateVariantWithDiscountSchema = UpdateVariantSchema.extend({
+  discount: DiscountSchema,
+});
+
+export type UpdateVariantWithDiscountInput = z.infer<
+  typeof UpdateVariantWithDiscountSchema
+>;

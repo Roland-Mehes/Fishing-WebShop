@@ -14,7 +14,7 @@ type ProductCardProps = {
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const imageUrl = getImageUrl(product.imageUrl);
+  const imageUrl = getImageUrl(product.imageKey);
 
   return (
     <Card className="group flex h-full flex-col overflow-hidden pt-0 transition-all duration-200 hover:border-primary/30 hover:shadow-md">
